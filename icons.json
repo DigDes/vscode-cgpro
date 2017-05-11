@@ -1,0 +1,23 @@
+{
+// ---------------------------- Icon definitions ---------------------------- //
+    "iconDefinitions": {
+        // Languages
+        "_cgpro": {"iconPath": "./icons/cgpro.ico"}
+    },
+// --------------------------- File associations ---------------------------- //
+    "file": "_generic",
+    "folder": "_folder_closed",
+    "folderExpanded": "_folder_open",
+    "languageIds": {
+        "cgpro": "_cgpro"
+    },
+    "fileExtensions": {
+        // Languages
+        "wcgp": "_cgpro",
+        "wcgi": "_cgpro",
+        "sppi": "_cgpro",
+        "sppr": "_cgpro",
+        "wssp": "_cgpro",
+        "wssi": "_cgpro"    
+    } 
+}

@@ -20,6 +20,11 @@
 			"language": "cgpro",
 			"scopeName": "source.cgpro",
 			"path": "./syntaxes/cgpro.json"
+		}],
+		"iconThemes": [{
+			"id": "cgpro",
+			"label": "CommuniGate Pro icon",
+			"path": "./icons.json"
 		}]
 	}
 }
