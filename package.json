@@ -1,26 +1,25 @@
 {
-	"name": "cgpl",
-	"displayName": "CG/PL",
-	"description": "CommuniGate Pro CG/PL Language Support",
+	"name": "cgpro",
+	"displayName": "CommuniGate Pro",
+	"description": "CommuniGate Pro languages extension (CLI/API, CG/PL, PBXApp, WebApp, WSSP)",
 	"icon": "images/communigate.gif",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"publisher": "Digital Design",
 	"engines": { "vscode": "^0.10.5" }, 
 	"categories": [
-        "Languages",
-        "Snippets"
+        "Languages"
     ],
 	"contributes": {
 		"languages": [{
-			"id": "cgpl",
-			"aliases": ["CG/PL", "CGPL"],
+			"id": "cgpro",
+			"aliases": ["CommuniGate Pro", "CLI/API", "CG/PL", "PBXApp", "WebApp", "WSSP"],
 			"extensions": [".wcgp", ".wcgi", ".sppi", ".sppr", ".wssp", ".wssi"],
 			"configuration": "./language-configuration.json"
 		}],
 		"grammars": [{
-			"language": "cgpl",
-			"scopeName": "source.cgpl",
-			"path": "./syntaxes/cgpl.json"
+			"language": "cgpro",
+			"scopeName": "source.cgpro",
+			"path": "./syntaxes/cgpro.json"
 		}]
 	}
 }
