@@ -1,4 +1,6 @@
 # CommuniGate Pro API extension for Visual Studio Code
+<img src="https://github.com/ruckii/vscode-cgpro/raw/master/images/communigate.gif" alt="CommuniGate Pro Logo"/>
+
 This language extension provide basic syntax colorizations for various types of CommuniGate Pro API, including:
 * [CLI/API]
 * [CG/PL]
