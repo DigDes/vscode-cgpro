@@ -4,7 +4,7 @@
 	"description": "CommuniGate Pro languages extension (CLI/API, CG/PL, PBXApp, WebApp, WSSP)",
 	"icon": "images/communigate.gif",
 	"version": "0.1.0",
-	"publisher": "Digital Design",
+	"publisher": "digdes-vscode-cgpro",
 	"engines": { "vscode": "^0.10.5" }, 
 	"categories": [
         "Languages"
