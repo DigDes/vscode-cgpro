@@ -9,6 +9,8 @@ This language extension provide basic syntax colorizations for various types of 
 * [WSSP]
 
 ## Version history
+### 0.1.1
+Marketplace icon changed.
 ### 0.1.0
 Initial release, which provides syntax colorisation for most of the functions and keywords.
 
