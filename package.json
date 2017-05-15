@@ -3,7 +3,7 @@
 	"displayName": "CommuniGate Pro",
 	"description": "CommuniGate Pro languages extension (CLI/API, CG/PL, PBXApp, WebApp, WSSP)",
 	"icon": "images/cglogo.svg",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"publisher": "digdes-vscode-cgpro",
 	"engines": { "vscode": "^0.10.5" }, 
 	"categories": [
