@@ -11,6 +11,9 @@
 	],
 	"patterns": [
 		{
+			"include": "text.html.basic"
+		},
+		{
 			"comment": "Block comment",
 			"name": "comment.line.block.cgpro",
 			"begin": "/\\*",
@@ -83,7 +86,7 @@
 		},
 		{
 			"comment": "CG/PL functions",
-			"match": "\\b(?i)(?:Same|Copy|Length|Min|Max|Void|ProcCall|FuncCall|objectClass|IsString|String|Substring|FindSubstring|FindSubstring|Range|EOL|CRLF|ToUpperCase|ToLowerCase|IsDigit|IsWhiteSpaces|FindRegEx|EmailDomainPart|EmailUserPart|IsNumber|Number|RandomNumber|IsDate|Date|GMTTime|GMTToLocal|LocalToGMT|Year|Month|MonthNum|MonthDay|WeekDay|YearDay|TimeOfDay|DateNumber|DateByMonthDay|DateByYearDay|IsIPAddress|IPAddress|IsData|RandomData|EmptyData|IsArray|NewArray|Invert|Find|AddElement|RemoveElement|InsertElement|SortStrings|IsDictionary|NewDictionary|SetCaseSensitive|IsXML|NewXML|SetNamespace|GetNamespace|GetPrefix|SetAttribute|GetAttribute|XMLBody|XMLType|XMLPrefix|ObjectToString|ObjectToXML|ToObject|Base64Encode|Base64Decode|AppToXML|XMLToApp|ObjectToJSON|JSONToObject|Convert|SystemInfo|CryDigest|CryEncrypt|CryDecrypt|Vars|SIPURIToEmail|EmailToSIPURI|PhoneNumberToSIPURI|RouteAddress|RouteENUM|MyDomain|MyEmail|GetAccountPreferences|SetAccountPreferences|Impersonate|ReadGroupMembers|ReadTelnums|UpdateAccountMailRule|UpdateAccountSignalRule|ListMailboxes|CreateMailbox|RenameMailbox|DeleteMailbox|GetMailboxACLs|SetMailboxACLs|GetMailboxAliases|SetMailboxAliases|GetMailboxSubscription|SetMailboxSubscription|OpenMailbox|OpenMailboxView|MailboxUIDs|SubscribeEvents|IsMailboxNotifyEvent|Sync|MailboxInternalTimeByUID|MailboxFlagsByUID|MailboxOrigUIDByUID|MailboxUIDByOrigUID|MailboxSetFlags|MailboxExpunge|MailboxAudioByUID|MailboxRedirectByUID|MailboxForwardByUID|MailboxAppend|MailboxCopy|GetMessageAttr|UpdateMessageAttr|OpenMessage|MessagePart|MessageHeader|MessageBody|OpenCalendar|Find|ProcessCalendar|ReadStorageFile|WriteStorageFile|AppendStorageFile|DeleteStorageFile|RenameStorageFile|CreateStorageDirectory|RenameStorageDirectory|DeleteStorageDirectory|ListStorageFiles|ReadStorageFileAttr|WriteStorageFileAttr|LockStorageFile|ReadRoster|SetRoster|DatasetList|DatasetCreate|DatasetRemove|DatasetSet|DatasetDelete|DirectorySearch|GetLanguage|SetLanguage|GetTimeZoneName|SetTimeZone|ReadEnvirFile|SysLog|SysProfile|ExecuteCLI|SetApplicationStatus|StoreCDR|DoBalance|Statistics|BannerRead|HTTPCall|SubmitEMail|SendEMail|SendInstantMessage|SendXMPPIQ|RADIUSCall|ThisTask|IsTask|SendEvent|ReadInput|CreateMeeting|ActivateMeeting|DeactivateMeeting|RemoveMeeting|FindMeeting|ClearMeeting|Enqueue|CheckQueue|Dequeue|ReadQueue)\\b",
+			"match": "\\b(?i)(?:Same|Copy|Length|Min|Max|Void|ProcCall|FuncCall|ObjectClass|IsString|String|Substring|FindSubstring|Range|EOL|CRLF|ToUpperCase|ToLowerCase|IsDigit|IsWhiteSpaces|FindRegEx|EmailDomainPart|EmailUserPart|IsNumber|Number|RandomNumber|IsDate|Date|GMTTime|GMTToLocal|LocalToGMT|Year|Month|MonthNum|MonthDay|WeekDay|YearDay|TimeOfDay|DateNumber|DateByMonthDay|DateByYearDay|IsIPAddress|IPAddress|IsData|RandomData|EmptyData|IsArray|NewArray|Invert|Find|AddElement|RemoveElement|InsertElement|SortStrings|IsDictionary|NewDictionary|SetCaseSensitive|IsXML|NewXML|SetNamespace|GetNamespace|GetPrefix|SetAttribute|GetAttribute|XMLBody|XMLType|XMLPrefix|ObjectToString|ObjectToXML|ToObject|Base64Encode|Base64Decode|AppToXML|XMLToApp|ObjectToJSON|JSONToObject|Convert|SystemInfo|CryDigest|CryEncrypt|CryDecrypt|Vars|SIPURIToEmail|EmailToSIPURI|PhoneNumberToSIPURI|RouteAddress|RouteENUM|MyDomain|MyEmail|GetAccountPreferences|SetAccountPreferences|Impersonate|ReadGroupMembers|ReadTelnums|UpdateAccountMailRule|UpdateAccountSignalRule|ListMailboxes|CreateMailbox|RenameMailbox|DeleteMailbox|GetMailboxACLs|SetMailboxACLs|GetMailboxAliases|SetMailboxAliases|GetMailboxSubscription|SetMailboxSubscription|OpenMailbox|OpenMailboxView|MailboxUIDs|SubscribeEvents|IsMailboxNotifyEvent|Sync|MailboxInternalTimeByUID|MailboxFlagsByUID|MailboxOrigUIDByUID|MailboxUIDByOrigUID|MailboxSetFlags|MailboxExpunge|MailboxAudioByUID|MailboxRedirectByUID|MailboxForwardByUID|MailboxAppend|MailboxCopy|GetMessageAttr|UpdateMessageAttr|OpenMessage|MessagePart|MessageHeader|MessageBody|OpenCalendar|Find|ProcessCalendar|ReadStorageFile|WriteStorageFile|AppendStorageFile|DeleteStorageFile|RenameStorageFile|CreateStorageDirectory|RenameStorageDirectory|DeleteStorageDirectory|ListStorageFiles|ReadStorageFileAttr|WriteStorageFileAttr|LockStorageFile|ReadRoster|SetRoster|DatasetList|DatasetCreate|DatasetRemove|DatasetSet|DatasetDelete|DirectorySearch|GetLanguage|SetLanguage|GetTimeZoneName|SetTimeZone|ReadEnvirFile|SysLog|SysProfile|ExecuteCLI|SetApplicationStatus|StoreCDR|DoBalance|Statistics|BannerRead|HTTPCall|SubmitEMail|SendEMail|SendInstantMessage|SendXMPPIQ|RADIUSCall|ThisTask|IsTask|SendEvent|ReadInput|CreateMeeting|ActivateMeeting|DeactivateMeeting|RemoveMeeting|FindMeeting|ClearMeeting|Enqueue|CheckQueue|Dequeue|ReadQueue)\\b",
 			"name": "support.function.cgpro"
 		},
 		{
@@ -108,7 +111,7 @@
 		},
 		{
 			"comment": "Other",
-            "name": "support.type.other.cgpro",
+			"name": "support.type.other.cgpro",
 			"match": "\\b(string)\\b"
 		}
 	]

@@ -1,25 +1,63 @@
 {
-	"name": "cgpro",
-	"displayName": "CommuniGate Pro",
-	"description": "CommuniGate Pro languages extension (CLI/API, CG/PL, PBXApp, WebApp, WSSP)",
-	"icon": "images/cglogo.svg",
-	"version": "0.1.2",
-	"publisher": "digdes-vscode-cgpro",
-	"engines": { "vscode": "^0.10.5" }, 
-	"categories": [
-        "Languages"
+  "name": "cgpro",
+  "displayName": "CommuniGate Pro",
+  "description": "CommuniGate Pro languages extension (CLI/API, CG/PL, PBXApp, WebApp, WSSP)",
+  "icon": "images/cglogo.svg",
+  "version": "0.2.0",
+  "publisher": "digdes-vscode-cgpro",
+  "author": {
+    "name": "Yaroslav Rutsky",
+    "email": "yaroslavr@digdes.com"
+  },
+  "repository": {
+    "url": "https://github.com/DigDes/vscode-cgpro"
+  },
+  "bugs": {
+    "url": "https://github.com/DigDes/vscode-cgpro/issues"
+  },
+  "engines": {
+    "vscode": "^1.8.0"
+  },
+  "categories": [
+    "Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:cgpro"
+  ],
+  "main": "./client/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "cgpro",
+        "aliases": [
+          "CommuniGate Pro",
+          "CLI/API",
+          "CG/PL",
+          "PBXApp",
+          "WebApp",
+          "WSSP"
+        ],
+        "extensions": [
+          ".wcgp",
+          ".wcgi",
+          ".sppi",
+          ".sppr",
+          ".wssp",
+          ".wssi"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
-	"contributes": {
-		"languages": [{
-			"id": "cgpro",
-			"aliases": ["CommuniGate Pro", "CLI/API", "CG/PL", "PBXApp", "WebApp", "WSSP"],
-			"extensions": [".wcgp", ".wcgi", ".sppi", ".sppr", ".wssp", ".wssi"],
-			"configuration": "./language-configuration.json"
-		}],
-		"grammars": [{
-			"language": "cgpro",
-			"scopeName": "source.cgpro",
-			"path": "./syntaxes/cgpro.json"
-		}]
-	}
+    "grammars": [
+      {
+        "language": "cgpro",
+        "scopeName": "source.cgpro",
+        "path": "./syntaxes/cgpro.json"
+      }
+    ]
+  },
+
+  "dependencies": {
+    "vscode-languageclient": "^3.1.0"
+  }
 }
