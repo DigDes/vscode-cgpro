@@ -3,7 +3,7 @@
   "displayName": "CommuniGate Pro",
   "description": "CommuniGate Pro languages extension (CLI/API, CG/PL, PBXApp, WebApp, WSSP)",
   "icon": "images/cglogo.svg",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "digdes-vscode-cgpro",
   "author": {
     "name": "Yaroslav Rutsky",

@@ -13,6 +13,9 @@ This language extension provide basic syntax colorizations for various types of 
 * [WSSP]
 
 ## Version history
+### 0.2.1 (1 June 2017)
+* PBXApp and WebApp code completion and docs for functions
+
 ### 0.2.0 (19 May 2017)
 * CG/PL code completion and docs for functions
 
