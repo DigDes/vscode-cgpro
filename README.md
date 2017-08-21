@@ -5,7 +5,7 @@
 
 *Many CommuniGate Pro components - such as PBX, WebMail, etc. are implemented as programs utilizing **CG/PL** - a JavaScript-like language. While the system comes with a large set of "standard" or "stock" applications, the CommuniGate Pro is also a robust platform to develop and deploy various Web-based, Telephony-based, E-mail and Groupware-based applications.*
 
-This language extension provide basic syntax colorizations for various types of CommuniGate Pro API, including:
+This language extension provide basic syntax colorizations and code completion for various types of CommuniGate Pro API, including:
 * [CG/PL]
 * [CLI/API]
 * [PBXApp]
@@ -13,6 +13,9 @@ This language extension provide basic syntax colorizations for various types of 
 * [WSSP]
 
 ## Version history
+### 0.2.2 (21 August 2017)
+* CLI/API code completion
+
 ### 0.2.1 (1 June 2017)
 * PBXApp and WebApp code completion
 

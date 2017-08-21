@@ -20,13 +20,16 @@ connection.onInitialize((params) => {
     workspaceRoot = params.rootPath;
     return {
         capabilities: {
-            //hoverProvider: true,
+            hoverProvider: true,
             //documentHighlightProvider: true,
             // Tell the client that the server works in FULL text document sync mode
             textDocumentSync: documents.syncKind,
             // Tell the client that the server support code complete
             completionProvider: {
                 resolveProvider: true
+            },
+            signatureHelpProvider: {
+                triggerCharacters: ['(']
             }
         }
     };
@@ -74,8 +77,7 @@ function validateTextDocument(textDocument) {
 //	console.log(textDocument
 //	return
 //});
-/*
-connection.onHover((textDocumentPosition: TextDocumentPositionParams): Hover => {
+connection.onHover((textDocumentPosition) => {
     //console.log(textDocumentPosition.position.character, textDocumentPosition.position.line);
     //console.log(textDocumentPosition.textDocument);
     //console.log(documents.get(textDocumentPosition.textDocument.uri).lineCount);
@@ -83,11 +85,32 @@ connection.onHover((textDocumentPosition: TextDocumentPositionParams): Hover => 
     let lines = documents.get(textDocumentPosition.textDocument.uri).getText().split(/\r?\n/g);
     let line = lines[textDocumentPosition.position.line];
     return {
-        contents: line
-    }
-
+        //contents: line
+        contents: { language: "cgpro", value: 'This function returns a true-value if the values of arg1 and arg2 are the same object or if both values are null-values or both values are true-values. In other cases the function returns a null-value.\nThe value of Same("J" + "ack","Jack") is a null-value.\nIn the following example: x = "my string";\ny = "my string";\nz = x;\ntest1 = Same(x,y);\ntest2 = Same(x,x);\ntest3 = Same(x,z); the resulting value of test1 is a null-value, while the values of test2 and test3 are true-values.' }
+    };
 });
-*/
+connection.onSignatureHelp((textDocumentPosition) => {
+    //console.log('fasdfsdfsdf');
+    //switch () {
+    return {
+        signatures: [
+            {
+                label: 'Same(arg1,arg2)',
+                documentation: 'This function returns a true-value if the values of arg1 and arg2 are the same object or if both values are null-values or both values are true-values. In other cases the function returns a null-value.\nThe value of Same("J" + "ack","Jack") is a null-value.\nIn the following example: x = "my string";\ny = "my string";\nz = x;\ntest1 = Same(x,y);\ntest2 = Same(x,x);\ntest3 = Same(x,z); the resulting value of test1 is a null-value, while the values of test2 and test3 are true-values.',
+                parameters: [
+                    { label: 'arg1', documentation: 'object' },
+                    { label: 'arg2', documentation: 'object' }
+                ]
+            }
+        ],
+        activeSignature: 0,
+        activeParameter: 1
+        //range : {
+        //   start : {line: 0, character: 0},
+        //    end : {line: 0, character: 10}
+        //}
+    };
+});
 // This handler provides the initial list of the completion items.
 connection.onCompletion((textDocumentPosition) => {
     // The pass parameter contains the position of the text document in 
@@ -361,7 +384,319 @@ connection.onCompletion((textDocumentPosition) => {
         { label: 'SendHTTPContinue', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 265 },
         { label: 'AddHTTPResponseField', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 266 },
         { label: 'ProcessWSSP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 267 },
-        { label: 'SessionData', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 268 }
+        { label: 'SessionData', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 268 },
+        { label: 'LISTDOMAINS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 269 },
+        { label: 'MAINDOMAINNAME', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 270 },
+        { label: 'GETDOMAINDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 271 },
+        { label: 'UPDATEDOMAINDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 272 },
+        { label: 'SETDOMAINDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 273 },
+        { label: 'GETCLUSTERDOMAINDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 274 },
+        { label: 'UPDATECLUSTERDOMAINDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 275 },
+        { label: 'SETCLUSTERDOMAINDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 276 },
+        { label: 'GETSERVERACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 277 },
+        { label: 'UPDATESERVERACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 278 },
+        { label: 'SETSERVERACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 279 },
+        { label: 'GETCLUSTERACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 280 },
+        { label: 'UPDATECLUSTERACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 281 },
+        { label: 'SETCLUSTERACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 282 },
+        { label: 'GETSERVERACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 283 },
+        { label: 'SETSERVERACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 284 },
+        { label: 'UPDATESERVERACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 285 },
+        { label: 'GETCLUSTERACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 286 },
+        { label: 'SETCLUSTERACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 287 },
+        { label: 'UPDATECLUSTERACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 288 },
+        { label: 'CREATEDOMAIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 289 },
+        { label: 'RENAMEDOMAIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 290 },
+        { label: 'DELETEDOMAIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 291 },
+        { label: 'CREATEDIRECTORYDOMAIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 292 },
+        { label: 'RELOADDIRECTORYDOMAINS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 293 },
+        { label: 'LISTSERVERTELNUMS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 294 },
+        { label: 'LISTCLUSTERTELNUMS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 295 },
+        { label: 'GETSERVERTRUSTEDCERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 296 },
+        { label: 'SETSERVERTRUSTEDCERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 297 },
+        { label: 'GETCLUSTERTRUSTEDCERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 298 },
+        { label: 'SETCLUSTERTRUSTEDCERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 299 },
+        { label: 'GETDIRECTORYINTEGRATION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 300 },
+        { label: 'SETDIRECTORYINTEGRATION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 301 },
+        { label: 'GETCLUSTERDIRECTORYINTEGRATION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 302 },
+        { label: 'SETCLUSTERDIRECTORYINTEGRATION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 303 },
+        { label: 'CREATEDOMAINSTORAGE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 304 },
+        { label: 'LISTDOMAINSTORAGE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 305 },
+        { label: 'GETDOMAINSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 306 },
+        { label: 'GETDOMAINEFFECTIVESETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 307 },
+        { label: 'UPDATEDOMAINSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 308 },
+        { label: 'GETACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 309 },
+        { label: 'UPDATEACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 310 },
+        { label: 'GETACCOUNTDEFAULTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 311 },
+        { label: 'SETACCOUNTDEFAULTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 312 },
+        { label: 'UPDATEACCOUNTDEFAULTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 313 },
+        { label: 'GETACCOUNTTEMPLATE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 314 },
+        { label: 'UPDATEACCOUNTTEMPLATE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 315 },
+        { label: 'GETDOMAINALIASES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 316 },
+        { label: 'GETDOMAINMAILRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 317 },
+        { label: 'SETDOMAINMAILRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 318 },
+        { label: 'GETDOMAINSIGNALRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 319 },
+        { label: 'SETDOMAINSIGNALRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 320 },
+        { label: 'LISTADMINDOMAINS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 321 },
+        { label: 'LISTDOMAINOBJECTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 322 },
+        { label: 'LISTACCOUNTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 323 },
+        { label: 'LISTDOMAINTELNUMS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 324 },
+        { label: 'INSERTDIRECTORYRECORDS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 325 },
+        { label: 'DELETEDIRECTORYRECORDS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 326 },
+        { label: 'CREATEACCOUNTSTORAGE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 327 },
+        { label: 'LISTACCOUNTSTORAGE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 328 },
+        { label: 'SETDOMAINALIASES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 329 },
+        { label: 'SETDOMAINSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 330 },
+        { label: 'SETACCOUNTDEFAULTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 331 },
+        { label: 'SETACCOUNTTEMPLATE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 332 },
+        { label: 'GETDOMAINLOCATION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 333 },
+        { label: 'SUSPENDDOMAIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 334 },
+        { label: 'RESUMEDOMAIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 335 },
+        { label: 'CREATEACCOUNT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 336 },
+        { label: 'RENAMEACCOUNT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 337 },
+        { label: 'DELETEACCOUNT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 338 },
+        { label: 'SETACCOUNTTYPE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 339 },
+        { label: 'GETACCOUNTSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 340 },
+        { label: 'UPDATEACCOUNTSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 341 },
+        { label: 'GETACCOUNTEFFECTIVESETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 342 },
+        { label: 'SETACCOUNTPASSWORD', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 343 },
+        { label: 'VERIFYACCOUNTPASSWORD', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 344 },
+        { label: 'GETACCOUNTALIASES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 345 },
+        { label: 'SETACCOUNTALIASES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 346 },
+        { label: 'GETACCOUNTTELNUMS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 347 },
+        { label: 'SETACCOUNTTELNUMS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 348 },
+        { label: 'MODIFYACCOUNTTELNUMS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 349 },
+        { label: 'GETACCOUNTMAILRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 350 },
+        { label: 'SETACCOUNTMAILRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 351 },
+        { label: 'GETACCOUNTSIGNALRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 352 },
+        { label: 'SETACCOUNTSIGNALRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 353 },
+        { label: 'UPDATEACCOUNTMAILRULE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 354 },
+        { label: 'UPDATEACCOUNTSIGNALRULE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 355 },
+        { label: 'GETACCOUNTRPOPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 356 },
+        { label: 'SETACCOUNTRPOPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 357 },
+        { label: 'GETACCOUNTRSIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 358 },
+        { label: 'SETACCOUNTRSIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 359 },
+        { label: 'UPDATESCHEDULEDTASK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 360 },
+        { label: 'GETACCOUNTRIGHTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 361 },
+        { label: 'GETACCOUNTINFO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 362 },
+        { label: 'GETACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 363 },
+        { label: 'UPDATEACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 364 },
+        { label: 'SETACCOUNTPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 365 },
+        { label: 'GETACCOUNTEFFECTIVEPREFS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 366 },
+        { label: 'KILLACCOUNTSESSIONS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 367 },
+        { label: 'GETACCOUNTACL', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 368 },
+        { label: 'SETACCOUNTACL', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 369 },
+        { label: 'GETACCOUNTACLRIGHTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 370 },
+        { label: 'SETACCOUNTSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 371 },
+        { label: 'GETACCOUNTLOCATION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 372 },
+        { label: 'GETACCOUNTPRESENCE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 373 },
+        { label: 'LISTGROUPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 374 },
+        { label: 'CREATEGROUP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 375 },
+        { label: 'RENAMEGROUP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 376 },
+        { label: 'DELETEGROUP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 377 },
+        { label: 'GETGROUP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 378 },
+        { label: 'SETGROUP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 379 },
+        { label: 'LISTFORWARDERS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 380 },
+        { label: 'CREATEFORWARDER', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 381 },
+        { label: 'RENAMEFORWARDER', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 382 },
+        { label: 'DELETEFORWARDER', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 383 },
+        { label: 'GETFORWARDER', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 384 },
+        { label: 'FINDFORWARDERS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 385 },
+        { label: 'LISTDOMAINNAMEDTASKS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 386 },
+        { label: 'LISTACCOUNTNAMEDTASKS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 387 },
+        { label: 'CREATENAMEDTASK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 388 },
+        { label: 'RENAMENAMEDTASK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 389 },
+        { label: 'DELETENAMEDTASK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 390 },
+        { label: 'GETNAMEDTASK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 391 },
+        { label: 'UPDATENAMEDTASK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 392 },
+        { label: 'SETACCOUNTRIGHTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 393 },
+        { label: 'LISTMAILBOXES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 394 },
+        { label: 'CREATEMAILBOX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 395 },
+        { label: 'DELETEMAILBOX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 396 },
+        { label: 'RENAMEMAILBOX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 397 },
+        { label: 'GETMAILBOXINFO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 398 },
+        { label: 'GETMAILBOXACL', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 399 },
+        { label: 'SETMAILBOXACL', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 400 },
+        { label: 'GETMAILBOXRIGHTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 401 },
+        { label: 'SETMAILBOXCLASS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 402 },
+        { label: 'GETMAILBOXSUBSCRIPTION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 403 },
+        { label: 'SETMAILBOXSUBSCRIPTION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 404 },
+        { label: 'GETMAILBOXALIASES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 405 },
+        { label: 'SETMAILBOXALIASES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 406 },
+        { label: 'GETDOMAINALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 407 },
+        { label: 'SETDOMAINALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 408 },
+        { label: 'POSTDOMAINALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 409 },
+        { label: 'REMOVEDOMAINALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 410 },
+        { label: 'GETACCOUNTALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 411 },
+        { label: 'SETACCOUNTALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 412 },
+        { label: 'POSTACCOUNTALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 413 },
+        { label: 'REMOVEACCOUNTALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 414 },
+        { label: 'GETSERVERALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 415 },
+        { label: 'SETSERVERALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 416 },
+        { label: 'POSTSERVERALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 417 },
+        { label: 'REMOVESERVERALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 418 },
+        { label: 'GETCLUSTERALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 419 },
+        { label: 'SETCLUSTERALERTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 420 },
+        { label: 'POSTCLUSTERALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 421 },
+        { label: 'REMOVECLUSTERALERT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 422 },
+        { label: 'READSTORAGEFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 423 },
+        { label: 'WRITESTORAGEFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 424 },
+        { label: 'RENAMESTORAGEFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 425 },
+        { label: 'DELETESTORAGEFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 426 },
+        { label: 'LISTSTORAGEFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 427 },
+        { label: 'GETSTORAGEFILEINFO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 428 },
+        { label: 'READSTORAGEFILEATTR', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 429 },
+        { label: 'UPDATESTORAGEFILEATTR', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 430 },
+        { label: 'GETFILESUBSCRIPTION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 431 },
+        { label: 'SETFILESUBSCRIPTION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 432 },
+        { label: 'LISTLISTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 433 },
+        { label: 'GETDOMAINLISTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 434 },
+        { label: 'GETACCOUNTLISTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 435 },
+        { label: 'CREATELIST', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 436 },
+        { label: 'RENAMELIST', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 437 },
+        { label: 'DELETELIST', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 438 },
+        { label: 'GETLIST', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 439 },
+        { label: 'UPDATELIST', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 440 },
+        { label: 'LIST', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 441 },
+        { label: 'LISTSUBSCRIBERS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 442 },
+        { label: 'READSUBSCRIBERS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 443 },
+        { label: 'GETSUBSCRIBERINFO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 444 },
+        { label: 'SETPOSTINGMODE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 445 },
+        { label: 'PROCESSBOUNCE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 446 },
+        { label: 'LISTDOMAINSKINS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 447 },
+        { label: 'CREATEDOMAINSKIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 448 },
+        { label: 'RENAMEDOMAINSKIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 449 },
+        { label: 'DELETEDOMAINSKIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 450 },
+        { label: 'LISTDOMAINSKINFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 451 },
+        { label: 'READDOMAINSKINFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 452 },
+        { label: 'STOREDOMAINSKINFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 453 },
+        { label: 'LISTSERVERSKINS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 454 },
+        { label: 'CREATESERVERSKIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 455 },
+        { label: 'RENAMESERVERSKIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 456 },
+        { label: 'DELETESERVERSKIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 457 },
+        { label: 'LISTSERVERSKINFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 458 },
+        { label: 'READSERVERSKINFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 459 },
+        { label: 'STORESERVERSKINFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 460 },
+        { label: 'LISTCLUSTERSKINS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 461 },
+        { label: 'LISTCLUSTERSKINFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 462 },
+        { label: 'LISTSTOCKSKINFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 463 },
+        { label: 'CREATEWEBUSERSESSION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 464 },
+        { label: 'CREATEXIMSSSESSION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 465 },
+        { label: 'FINDACCOUNTSESSION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 466 },
+        { label: 'LISTACCOUNTSESSIONS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 467 },
+        { label: 'GETSESSION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 468 },
+        { label: 'KILLSESSION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 469 },
+        { label: 'CREATEDOMAINPBX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 470 },
+        { label: 'DELETEDOMAINPBX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 471 },
+        { label: 'LISTDOMAINPBXFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 472 },
+        { label: 'READDOMAINPBXFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 473 },
+        { label: 'STOREDOMAINPBXFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 474 },
+        { label: 'CREATESERVERPBX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 475 },
+        { label: 'DELETESERVERPBX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 476 },
+        { label: 'LISTSERVERPBXFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 477 },
+        { label: 'READSERVERPBXFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 478 },
+        { label: 'STORESERVERPBXFILE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 479 },
+        { label: 'CREATECLUSTERPBX', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 480 },
+        { label: 'LISTSTOCKPBXFILES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 481 },
+        { label: 'STARTPBXTASK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 482 },
+        { label: 'SENDTASKEVENT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 483 },
+        { label: 'KILLNODE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 484 },
+        { label: 'READNODESTATUS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 485 },
+        { label: 'REMOVEACCOUNTSUBSET', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 486 },
+        { label: 'DATASET', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 487 },
+        { label: 'ROSTER', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 488 },
+        { label: 'BALANCE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 489 },
+        { label: 'LISTMODULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 490 },
+        { label: 'GETMODULE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 491 },
+        { label: 'SETMODULE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 492 },
+        { label: 'UPDATEMODULE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 493 },
+        { label: 'GETQUEUESETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 494 },
+        { label: 'SETQUEUESETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 495 },
+        { label: 'GETSIGNALSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 496 },
+        { label: 'SETSIGNALSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 497 },
+        { label: 'GETMEDIASERVERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 498 },
+        { label: 'SETMEDIASERVERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 499 },
+        { label: 'GETSESSIONSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 500 },
+        { label: 'SETSESSIONSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 501 },
+        { label: 'GETCLUSTERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 502 },
+        { label: 'SETCLUSTERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 503 },
+        { label: 'GETLOGSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 504 },
+        { label: 'UPDATELOGSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 505 },
+        { label: 'GETNETWORK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 506 },
+        { label: 'SETNETWORK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 507 },
+        { label: 'GETDNRSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 508 },
+        { label: 'SETDNRSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 509 },
+        { label: 'GETBANNED', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 510 },
+        { label: 'SETBANNED', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 511 },
+        { label: 'GETCLUSTERNETWORK', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 512 },
+        { label: 'GETCLUSTERBANNED', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 513 },
+        { label: 'GETSERVERMAILRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 514 },
+        { label: 'SETSERVERMAILRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 515 },
+        { label: 'GETSERVERSIGNALRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 516 },
+        { label: 'SETSERVERSIGNALRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 517 },
+        { label: 'GETCLUSTERMAILRULES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 518 },
+        { label: 'GETROUTERTABLE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 519 },
+        { label: 'SETROUTERTABLE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 520 },
+        { label: 'GETROUTERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 521 },
+        { label: 'SETROUTERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 522 },
+        { label: 'GETCLUSTERROUTERTABLE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 523 },
+        { label: 'GETSERVERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 524 },
+        { label: 'UPDATESERVERSETTINGS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 525 },
+        { label: 'REFRESHOSDATA', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 526 },
+        { label: 'GETLANIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 527 },
+        { label: 'SETLANIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 528 },
+        { label: 'GETCLUSTERLANIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 529 },
+        { label: 'SETCLUSTERLANIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 530 },
+        { label: 'GETCLIENTIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 531 },
+        { label: 'GETBLACKLISTEDIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 532 },
+        { label: 'GETWHITEHOLEIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 533 },
+        { label: 'GETNATEDIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 534 },
+        { label: 'GETNATSITEIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 535 },
+        { label: 'GETDEBUGIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 536 },
+        { label: 'GETDENIEDIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 537 },
+        { label: 'ROUTE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 538 },
+        { label: 'GETIPSTATE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 539 },
+        { label: 'GETSERVERINTERCEPT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 540 },
+        { label: 'SETSERVERINTERCEPT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 541 },
+        { label: 'GETCLUSTERINTERCEPT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 542 },
+        { label: 'GETSTATELEMENT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 543 },
+        { label: 'SETSTATELEMENT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 544 },
+        { label: 'GETNEXTSTATNAME', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 545 },
+        { label: 'GETDIALOGINFO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 546 },
+        { label: 'SHUTDOWN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 547 },
+        { label: 'GETACCOUNTSTAT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 548 },
+        { label: 'RESETACCOUNTSTAT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 549 },
+        { label: 'GETDOMAINSTAT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 550 },
+        { label: 'RESETDOMAINSTAT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 551 },
+        { label: 'LISTDIRECTORYUNITS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 552 },
+        { label: 'CREATEDIRECTORYUNIT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 553 },
+        { label: 'RELOCATEDIRECTORYUNIT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 554 },
+        { label: 'DELETEDIRECTORYUNIT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 555 },
+        { label: 'GETDIRECTORYUNIT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 556 },
+        { label: 'SETDIRECTORYUNIT', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 557 },
+        { label: 'GETDIRECTORYACCESSRIGHTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 558 },
+        { label: 'SETDIRECTORYACCESSRIGHTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 559 },
+        { label: 'LISTCLICOMMANDS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 560 },
+        { label: 'NOOP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 561 },
+        { label: 'ECHO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 562 },
+        { label: 'GETVERSION', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 563 },
+        { label: 'GETSYSTEMINFO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 564 },
+        { label: 'GETCURRENTTIME', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 565 },
+        { label: 'SETLOGALL', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 566 },
+        { label: 'DUMPALLOBJECTS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 567 },
+        { label: 'TESTLOOP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 568 },
+        { label: 'SETTRACE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 569 },
+        { label: 'WRITELOG', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 570 },
+        { label: 'RELEASESMTPQUEUE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 571 },
+        { label: 'REJECTQUEUEMESSAGE', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 572 },
+        { label: 'REJECTQUEUEMESSAGES', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 573 },
+        { label: 'GETMESSAGEQUEUEINFO', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 574 },
+        { label: 'GETCURRENTCONTROLLER', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 575 },
+        { label: 'RECONNECTCLUSTERADMIN', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 576 },
+        { label: 'GETTEMPCLIENTIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 577 },
+        { label: 'TEMPBLACKLISTIP', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 578 },
+        { label: 'GETTEMPBLACKLISTEDIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 579 },
+        { label: 'SETTEMPBLACKLISTEDIPS', kind: vscode_languageserver_1.CompletionItemKind.Function, data: 580 }
     ];
 });
 // This handler resolve additional information for the item selected in
@@ -1706,6 +2041,1566 @@ connection.onCompletionResolve((item) => {
         case 268: {
             item.detail = '(WebApp) SessionData()';
             item.documentation = 'This function returns the Session Dataset dictionary.';
+            break;
+        }
+        case 269: {
+            item.detail = '(CLI/API) LISTDOMAINS';
+            item.documentation = 'Use this command to get the list of domains. The command produces output data - an array with the names of all server domains.';
+            break;
+        }
+        case 270: {
+            item.detail = '(CLI/API) MAINDOMAINNAME';
+            item.documentation = 'Use this command to get the name of the Main Domain. The command produces output data - a string with the Main Domain name.';
+            break;
+        }
+        case 271: {
+            item.detail = '(CLI/API) GETDOMAINDEFAULTS';
+            item.documentation = 'Use this command to get the server-wide default Domain Settings. The command produces an output - a dictionary with the default Domain Settings.';
+            break;
+        }
+        case 272: {
+            item.detail = '(CLI/API) UPDATEDOMAINDEFAULTS newSettings';
+            item.documentation = 'Use this command to change the server-wide default Domain settings.\nnewSettings : dictionary\nThis dictionary is used to update the default Domain settings dictionary. It does not have to contain all settings data, the omitted settings will be left unmodified.';
+            break;
+        }
+        case 273: {
+            item.detail = '(CLI/API) SETDOMAINDEFAULTS newSettings';
+            item.documentation = 'Use this command to change the server-wide default Domain settings.\nnewSettings : dictionary\nThis dictionary is used to replace the server-wide default Domain settings dictionary.';
+            break;
+        }
+        case 274: {
+            item.detail = '(CLI/API) GETCLUSTERDOMAINDEFAULTS';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the GETDOMAINDEFAULTS command to work with the cluster-wide default Domain Settings.';
+            break;
+        }
+        case 275: {
+            item.detail = '(CLI/API) UPDATECLUSTERDOMAINDEFAULTS newSettings';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this commands instead of the UPDATEDOMAINDEFAULTS command to work with the cluster-wide default Domain Settings.';
+            break;
+        }
+        case 276: {
+            item.detail = '(CLI/API) SETCLUSTERDOMAINDEFAULTS newSettings';
+            item.documentation = 'These command is available in the Dynamic Cluster only. Use this command instead of the SETDOMAINDEFAULTS command to work with the cluster-wide default Domain Settings.';
+            break;
+        }
+        case 277: {
+            item.detail = '(CLI/API) GETSERVERACCOUNTDEFAULTS';
+            item.documentation = 'Use this command to get the server-wide Default Account settings. The command produces an output - a dictionary with the global default Account settings.';
+            break;
+        }
+        case 278: {
+            item.detail = '(CLI/API) UPDATESERVERACCOUNTDEFAULTS newSettings';
+            item.documentation = 'Use this command to update the server-wide Default Account settings.\nnewSettings : dictionary\nThis dictionary is used to update the Default Account settings dictionary. It does not have to contain all settings data, the omitted settings will be left unmodified.';
+            break;
+        }
+        case 279: {
+            item.detail = '(CLI/API) SETSERVERACCOUNTDEFAULTS newSettings';
+            item.documentation = 'Use this command to set the server-wide Default Account settings.\nnewSettings : dictionary\nThis dictionary is used to replace the server-wide Default Account settings dictionary.';
+            break;
+        }
+        case 280: {
+            item.detail = '(CLI/API) GETCLUSTERACCOUNTDEFAULTS';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the GETSERVERACCOUNTDEFAULTS commands to work with the cluster-wide Default Account settings.';
+            break;
+        }
+        case 281: {
+            item.detail = '(CLI/API) UPDATECLUSTERACCOUNTDEFAULTS newSettings';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the UPDATESERVERACCOUNTDEFAULTS commands to work with the cluster-wide Default Account settings.';
+            break;
+        }
+        case 282: {
+            item.detail = '(CLI/API) SETCLUSTERACCOUNTDEFAULTS newSettings';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the SETSERVERACCOUNTDEFAULTS commands to work with the cluster-wide Default Account settings.';
+            break;
+        }
+        case 283: {
+            item.detail = '(CLI/API) GETSERVERACCOUNTPREFS';
+            item.documentation = 'Use this command to get the server-wide Default Account Preferences. The command produces an output - a dictionary with the default Preferences.';
+            break;
+        }
+        case 284: {
+            item.detail = '(CLI/API) SETSERVERACCOUNTPREFS newSettings';
+            item.documentation = 'Use this command to change the server-wide Default Account Preferences. newSettings : dictionar his dictionary is used to replace the server-wide Default Account Preferences. All old server-wide Default Account Preferences are removed.';
+            break;
+        }
+        case 285: {
+            item.detail = '(CLI/API) UPDATESERVERACCOUNTPREFS newSettings';
+            item.documentation = 'Use this command to change the server-wide Default Account Preferences. newSettings : dictionar his dictionary is used to update the Default Account Preferences. It does not have to contain all preferences data, the omitted Preferences will be left unmodified.';
+            break;
+        }
+        case 286: {
+            item.detail = '(CLI/API) GETCLUSTERACCOUNTPREFS';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the GETSERVERACCOUNTPREFS command to work with the cluster-wide Default Account Preferences.';
+            break;
+        }
+        case 287: {
+            item.detail = '(CLI/API) SETCLUSTERACCOUNTPREFS newSettings';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the SETSERVERACCOUNTPREFS command to work with the cluster-wide Default Account Preferences.';
+            break;
+        }
+        case 288: {
+            item.detail = '(CLI/API) UPDATECLUSTERACCOUNTPREFS newSettings';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the UPDATESERVERACCOUNTPREFS command to work with the cluster-wide Default Account Preferences.';
+            break;
+        }
+        case 289: {
+            item.detail = '(CLI/API) CREATEDOMAIN domainName [ SHARED ] [ PATH storage ] [ settings ]';
+            item.documentation = 'Use this command to create a new secondary Domain.\ndomainName : string\nThis parameter specifies the Domain name to create.\nstorage : string\nThis optional parameter specifies the "storage mount Point" directory for the Domain data (the name should be specified without the .mnt suffix).\nsettings : dictionary\nThis optional parameter specifies the Domain settings. Use the SHARED keyword to create a Cluster-wide Domain in a Dynamic Cluster.';
+            break;
+        }
+        case 290: {
+            item.detail = '(CLI/API) RENAMEDOMAIN oldDomainName INTO newDomainName [ PATH storage ]';
+            item.documentation = 'Use this command to rename a Domain.\noldDomainName : string\nThis parameter specifies the name of an existing secondary Domain.\nnewDomainName : string\nThis parameter specifies the new Domain name.\nstorage : string\nThis optional parameter specifies the new "storage mount Point" directory for the Domain data (the name should be specified without the .mnt suffix).';
+            break;
+        }
+        case 291: {
+            item.detail = '(CLI/API) DELETEDOMAIN domainName [ FORCE ]';
+            item.documentation = 'Use this command to remove a Domain.\ndomainName : string\nThis parameter specifies the name of the Domain to be removed.\nFORCE\nThis optional parameter specifies that the Domain should be removed even if it is not empty. All Domain objects (Accounts, Groups, etc.) will be removed.';
+            break;
+        }
+        case 292: {
+            item.detail = '(CLI/API) CREATEDIRECTORYDOMAIN domainName [ settings ]';
+            item.documentation = 'Use this command to create a new directory-based Domain.\ndomainName : string\nThis parameter specifies the Domain name to create.\nsettings : dictionary\nThis optional parameter specifies the Domain settings. This operation is allowed only when the Directory-based Domains are enabled.';
+            break;
+        }
+        case 293: {
+            item.detail = '(CLI/API) RELOADDIRECTORYDOMAINS';
+            item.documentation = 'Use this command to tell the server to scan the Domains Directory subtree so it can find all additional Directory-based Domains created directly in the Directory, bypassing the CommuniGate Pro Server. This operation is allowed only when the Directory-based Domains are enabled.';
+            break;
+        }
+        case 294: {
+            item.detail = '(CLI/API) LISTSERVERTELNUMS [ FILTER filter ] limit';
+            item.documentation = 'Use this command to read Telnum numbers created in all (non-clustered) Domains. The command produces an output - a dictionary where each key is a Telnum number, and its value is the Account name it is assigned to. An numeric element for an empty ("") key is added, it contains the total number of Telnum numbers created. filter : string\nIf this optional parameter is specified, only the telnum numbers containing the specified string are returned.\nlimit : number\nThe maximum number of Telnum numbers to return.';
+            break;
+        }
+        case 295: {
+            item.detail = '(CLI/API) LISTCLUSTERTELNUMS [ FILTER filter ] limit';
+            item.documentation = 'The same as LISTSERVERTELNUMS, but for shared Cluster Domains.';
+            break;
+        }
+        case 296: {
+            item.detail = '(CLI/API) GETSERVERTRUSTEDCERTS';
+            item.documentation = 'Use this command to get the server-wide set of Trusted Certificates. The command produces an output - an array of datablocks. Each datablock contains one X.509 certificate data.';
+            break;
+        }
+        case 297: {
+            item.detail = '(CLI/API) SETSERVERTRUSTEDCERTS newCertificates';
+            item.documentation = 'Use this command to set the server-wide set of Trusted Certificates.\nnewCertificates : array\nThis array should contain datablocks with X.509 certificate data. It is used to replace the server-wide list of Trusted Certificates.';
+            break;
+        }
+        case 298: {
+            item.detail = '(CLI/API) GETCLUSTERTRUSTEDCERTS';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the GETSERVERTRUSTEDCERTS command to work with the cluster-wide set of Trusted Certificates.';
+            break;
+        }
+        case 299: {
+            item.detail = '(CLI/API) SETCLUSTERTRUSTEDCERTS newCertificates';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the SETSERVERTRUSTEDCERTS command to work with the cluster-wide set of Trusted Certificates.';
+            break;
+        }
+        case 300: {
+            item.detail = '(CLI/API) GETDIRECTORYINTEGRATION';
+            item.documentation = 'Use this command to get the server-wide Directory Integration settings. The command produces an output - a dictionary with the Directory Integration settings.';
+            break;
+        }
+        case 301: {
+            item.detail = '(CLI/API) SETDIRECTORYINTEGRATION newSettings';
+            item.documentation = 'Use this command to set the server-wide Directory Integration settings.\nnewSettings : dictionary\nThis dictionary is used to replace the server-wide Directory Integration settings dictionary.';
+            break;
+        }
+        case 302: {
+            item.detail = '(CLI/API) GETCLUSTERDIRECTORYINTEGRATION';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the GETDIRECTORYINTEGRATION command to work with the cluster-wide Directory Integration settings.';
+            break;
+        }
+        case 303: {
+            item.detail = '(CLI/API) SETCLUSTERDIRECTORYINTEGRATION newSettings';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the SETDIRECTORYINTEGRATION command to work with the cluster-wide Directory Integration settings.';
+            break;
+        }
+        case 304: {
+            item.detail = '(CLI/API) CREATEDOMAINSTORAGE [ SHARED ] PATH storage';
+            item.documentation = 'Use this command to create a "storage mount point" for new Domains.\nstorage : string\nThis parameter specifies the "storage mount Point" name. Use the SHARED keyword to create a "storage mount point" for Cluster Domains in a Dynamic Cluster.';
+            break;
+        }
+        case 305: {
+            item.detail = '(CLI/API) LISTDOMAINSTORAGE [ SHARED ]';
+            item.documentation = 'Use this command to list "storage mount points" for Domains. \nThe command produces an output - an array with "storage mount points" names. \nUse the SHARED keyword to list "storage mount point" for Cluster Domains in a Dynamic Cluster.';
+            break;
+        }
+        case 306: {
+            item.detail = '(CLI/API) GETDOMAINSETTINGS [ domainName ]';
+            item.documentation = 'Use this command to get the Domain settings. The command produces an output - a dictionary with the domainName settings. Only the explicitly set (not the default) settings are included into that dictionary.\ndomainName : string \nThis optional parameter specifies the name of an existing Domain.';
+            break;
+        }
+        case 307: {
+            item.detail = '(CLI/API) GETDOMAINEFFECTIVESETTINGS [ domainName ]';
+            item.documentation = 'Use this command to get the Domain settings. The command produces an output - a dictionary with the domainName settings. Both the explicitly set and the default settings are included into that dictionary. domainName : string \nThis optional parameter specifies the name of an existing Domain.';
+            break;
+        }
+        case 308: {
+            item.detail = '(CLI/API) UPDATEDOMAINSETTINGS [ domainName ] newSettings';
+            item.documentation = 'Use this command to update the Domain settings.\ndomainName : string \nThis optional parameter specifies the name of an existing Domain.\nnewSettings : dictionary\nThis dictionary is used to update the Domain settings dictionary. It does not have to contain all settings data, the omitted settings will be left unmodified. If a new setting value is specified as the string default, the Domain setting value is removed, so the default Domain settings value will be used. If this command is used by a Domain Administrator, it will update only those Domain Settings that this Domain Administrator is allowed to modify.';
+            break;
+        }
+        case 309: {
+            item.detail = '(CLI/API) GETACCOUNTDEFAULTS [ domainName ]';
+            item.documentation = 'Use this command to get the default Account settings for the specified Domain. The command produces an output - a dictionary with the default settings.\ndomainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the Administrator Domain.';
+            break;
+        }
+        case 310: {
+            item.detail = '(CLI/API) UPDATEACCOUNTDEFAULTS [ domainName ] newSettings';
+            item.documentation = 'Use this command to modify the Default Account settings for the specified Domain.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.\nnewSettings : dictionary\nThis dictionary is used to modify the Domain Default Account settings. The dictionary does not have to contain all settings data, the omitted settings will be left unmodified. If a new setting value is specified as the string default, the setting value is removed, so the global Server Default Account Settings will be used. If this command is used by a Domain Administrator, it will update only those Default Account settings this Administrator is allowed to modify.';
+            break;
+        }
+        case 311: {
+            item.detail = '(CLI/API) GETACCOUNTDEFAULTPREFS [ domainName ]';
+            item.documentation = 'Use this command to get the Default Account Preferences for the specified Domain. The command produces an output - a dictionary with the default Preferences. domainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 312: {
+            item.detail = '(CLI/API) SETACCOUNTDEFAULTPREFS [ domainName ] newSettings';
+            item.documentation = 'Use this command to change the Default Account Preferences for the specified Domain. domainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the authenticated user Domain.\nnewSettings : dictionary\nThis dictionary is used to replace the Default Account Preferences. All old Default Account Preferences are removed. This command can be used by Domain Administrators only if they have the WebUserSettings access right.';
+            break;
+        }
+        case 313: {
+            item.detail = '(CLI/API) UPDATEACCOUNTDEFAULTPREFS [ domainName ] newSettings';
+            item.documentation = 'Use this command to change the Default Account Preferences for the specified Domain. domainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the authenticated user Domain.\nnewSettings : dictionary\nThis dictionary is used to modify the Domain Default Account Preferences. It does not have to contain all Preferences data, the omitted elements will be left unmodified. If a new element value is specified as the string default, the Default Preferences value is removed, so the default Server-wide (or Cluster-wide) Account Preferences value will be used. This command can be used by Domain Administrators only if they have the WebUserSettings access right.';
+            break;
+        }
+        case 314: {
+            item.detail = '(CLI/API) GETACCOUNTTEMPLATE [ domainName ]';
+            item.documentation = 'Use this command to get the Account Template settings. The command produces an output - a dictionary with the Template settings.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 315: {
+            item.detail = '(CLI/API) UPDATEACCOUNTTEMPLATE [ domainName ] newSettings';
+            item.documentation = 'Use this command to modify the Account Template settings.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.\nnewSettings : dictionary\nThis dictionary is used to modify the Domain Account Template. All new Accounts in the specified Domain will be created with the Template settings. The dictionary does not have to contain all settings data, the omitted settings will be left unmodified. If a new setting value is specified as the string default, the Template setting value is removed. If this command is used by a Domain administrator, it will update only those Template settings that the Domain administrator is allowed to modify.';
+            break;
+        }
+        case 316: {
+            item.detail = '(CLI/API) GETDOMAINALIASES domainName';
+            item.documentation = 'Use this command to get the list of Domain Aliases. The command produces an output - an array with the Domain alias names. domainName : string\nThis parameter specifies the name of an existing Domain.';
+            break;
+        }
+        case 317: {
+            item.detail = '(CLI/API) GETDOMAINMAILRULES domainName';
+            item.documentation = 'Use this command to get the list of Domain Queue Rules. The command produces an output - an array of the Queue Rules specified for the Domain.\ndomainName : string\nThis parameter specifies the name of an existing Domain.';
+            break;
+        }
+        case 318: {
+            item.detail = '(CLI/API) SETDOMAINMAILRULES domainName newRules';
+            item.documentation = 'Use this command to set the Domain Queue Rules.\ndomainName : string\nThis parameter specifies the name of an existing Domain.\nnewRules : array\nThis array should contain the Domain Queue Rules. All old Domain Queue Rules are removed. This command can be used by Domain Administrators only if they have the RulesAllowed access right.';
+            break;
+        }
+        case 319: {
+            item.detail = '(CLI/API) GETDOMAINSIGNALRULES domainName';
+            item.documentation = 'Use this command to get the list of Domain Signal Rules. The command produces an output - an array of the Signal Rules specified for the Domain.\ndomainName : string\nThis parameter specifies the name of an existing Domain.';
+            break;
+        }
+        case 320: {
+            item.detail = '(CLI/API) SETDOMAINSIGNALRULES domainName newRules';
+            item.documentation = 'Use this command to set the Domain Signal Rules.\ndomainName : string\nThis parameter specifies the name of an existing Domain.\nnewRules : array\nThis array should contain the Domain Signal Rules. All old Domain Signal Rules are removed. This command can be used by Domain Administrators only if they have the SignalRulesAllowed access right.';
+            break;
+        }
+        case 321: {
+            item.detail = '(CLI/API) LISTADMINDOMAINS [ domainName ]';
+            item.documentation = 'Use this command to get the list of Domains that can be administered by Domain Administrator Accounts in the specified domainName Domain. The command produces an output - an array with the Domain names.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the authenticated user Domain.';
+            break;
+        }
+        case 322: {
+            item.detail = '(CLI/API) LISTDOMAINOBJECTS domainName [ FILTER filter ] limit [ ACCOUNTS ] [ ALIASES ] [ FORWARDERS ] [ COOKIE cookie ]';
+            item.documentation = 'Use this command to get a list of Domain objects.\ndomainName : string\nThis parameter specifies the Domain name.\nfilter : string\nThis optional parameter specifies a filter string: only objects with names including this string as a substring are listed.\nlimit : numeric string\nThis parameter specifies the maximum number of objects to list.\nACCOUNTS, ALIASES, FORWARDERS\nThese keywords specify which Domain objects should be listed.\ncookie : string\nThis optional parameter specifies a "cookie" string. \nThe command produces output data - an array with the following elements: \na numeric string with the total number of Domain Accounts \na dictionary with Domain Objects. Each dictionary key is a Domain Object name. The dictionary value depends on the Domain Object type: \nAccount - the dictionary object is a string (the Account file extension) \nAccount Alias - the dictionary object is an array. Its only element is a string with the Alias owner (Account) name. \nForwarder - the dictionary object is an array. Its only element is an array. Its only element is a string with the Forwarder address. \na numeric string with the total number of Aliases in the Domain. \na numeric string with the total number of Forwarders in the Domain. \na new "cookie" string (optional, exists only if there was the COOKIE cookie part in the command.) \nTo list Objects in large Domains, specify some reasonable limit value (below 10,000) and specify and empty cookie string. If not all Objects are returned, issue the command again, using the new cookie value specified in the response array. When all Objects are returned, the new cookie value in the response is an empty string.';
+            break;
+        }
+        case 323: {
+            item.detail = '(CLI/API) LISTACCOUNTS [ domainName ]';
+            item.documentation = 'Use this command to get the list of all Accounts in the Domain. The command produces output data - a dictionary with the keys listing all Accounts in the specified (or default) Domain.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 324: {
+            item.detail = '(CLI/API) LISTDOMAINTELNUMS domainName [ FILTER filter ] limit';
+            item.documentation = 'Use this command to read Telnum numbers created in the specified Domain. The command produces an output - a dictionary where each key is a Telnum number, and its value is the Account name it is assigned to. An numeric element for an empty ("") key is added, it contains the total number of Telnum numbers created. \ndomainName : string\nThis parameter specifies the Domain name.\nfilter : string\nIf this optional parameter is specified, only the telnum numbers containing the specified string are returned.\nlimit : number\nThe maximum number of Telnum numbers to return.';
+            break;
+        }
+        case 325: {
+            item.detail = '(CLI/API) INSERTDIRECTORYRECORDS domainName';
+            item.documentation = 'Use this command to insert records for Domain objects (Accounts, Groups, Mailing Lists, Forwarders) into the Directory.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the authenticated user Domain. This command can be used by Domain Administrators only if they have the CentralDirectory access right.';
+            break;
+        }
+        case 326: {
+            item.detail = '(CLI/API) DELETEDIRECTORYRECORDS domainName';
+            item.documentation = 'Use this command to delete Domain object records from the Directory.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the authenticated user Domain. This command can be used by Domain Administrators only if they have the CentralDirectory access right.';
+            break;
+        }
+        case 327: {
+            item.detail = '(CLI/API) CREATEACCOUNTSTORAGE domainName PATH storage';
+            item.documentation = 'Use this command to create a "storage mount point" for new Accounts in the Domain. \ndomainName : string\nThis parameter specifies the Domain name.\nstorage : string\nThis parameter specifies the "storage mount Point" name.';
+            break;
+        }
+        case 328: {
+            item.detail = '(CLI/API) LISTACCOUNTSTORAGE domainName';
+            item.documentation = 'Use this command to list Account "storage mount points" in the specified Domain. \nThe command produces an output - an array with "storage mount points" names.\ndomainName : string\nThis parameter specifies the Domain name.';
+            break;
+        }
+        case 329: {
+            item.detail = '(CLI/API) SETDOMAINALIASES domainName newAliases';
+            item.documentation = 'Use this command to set the Domain aliases. domainName : string\nThis parameter specifies the name of an existing Domain.\nnewAliases : array\nThis array should contain the Domain alias name strings. All old Domain aliases are removed.';
+            break;
+        }
+        case 330: {
+            item.detail = '(CLI/API) SETDOMAINSETTINGS domainName newSettings';
+            item.documentation = 'Use this command to change the Domain settings.\ndomainName : string\nThis parameter specifies the name of an existing Domain.\nnewSettings : dictionary\nThis dictionary is used to replace the Domain settings dictionary. All old Domain settings are removed.';
+            break;
+        }
+        case 331: {
+            item.detail = '(CLI/API) SETACCOUNTDEFAULTS [ domainName ] newSettings';
+            item.documentation = 'Use this command to change the Default Account settings for the specified Domain. \ndomainName : string\nThis parameter specifies the Domain name.\nnewSettings : dictionary\nThis dictionary is used to replace the Domain Default Account settings. All old Account Default settings are removed.';
+            break;
+        }
+        case 332: {
+            item.detail = '(CLI/API) SETACCOUNTTEMPLATE [ domainName ] newSettings';
+            item.documentation = 'Use this command to change the Account Template settings.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.\nnewSettings : dictionary\nThis dictionary is used to update the Domain Account Template. All new Accounts in the specified Domain will be created with the Template settings. All old Account Template settings are removed.';
+            break;
+        }
+        case 333: {
+            item.detail = '(CLI/API) GETDOMAINLOCATION [ domainName ]';
+            item.documentation = 'Use this command to get the Domain file directory path (relative to the Server base directory). The command produces an output - a string with the Domain file path.\ndomainName : string\nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 334: {
+            item.detail = '(CLI/API) SUSPENDDOMAIN domainName';
+            item.documentation = 'Use this command to suspend a Domain, so all currently active Accounts are closed and no Account can be opened in this Domain.\ndomainName : string\nThis parameter specifies the name of the Domain to be suspended.';
+            break;
+        }
+        case 335: {
+            item.detail = '(CLI/API) RESUMEDOMAIN domainName';
+            item.documentation = 'Use this command to resume a Domain, so Accounts can be opened in this Domain.\ndomainName : string\nThis parameter specifies the name of the Domain to be resumed.';
+            break;
+        }
+        case 336: {
+            item.detail = '(CLI/API) CREATEACCOUNT accountName [ accountType ] [ PATH storage ] [ LEGACY ] [ settings ]';
+            item.documentation = 'Use this command to create new accounts.\naccountName : string \nThis parameter specifies the name for the new Account. The name can contain the @ symbol followed by the Domain name, in this case the Account is created in the specified Domain. If the Domain name is not specified, the command applies to the administrator Domain. \naccountType : MultiMailbox | TextMailbox | MailDirMailbox | SlicedMailbox | AGrade | BGrade | CGrade\nThis optional parameter specifies the type of the Account to create. If no Account type is specified a MultiMailbox-type Account is created.\nstorage : string\nThis optional parameter specifies the "storage mount Point" directory for the Account data (the name should be specified without the .mnt suffix).\nLEGACY\nthis optional flag tells the system to create an Account with a Legacy (visible for legacy mailers) INBOX. \nsettings : dictionary\nThis optional parameter specifies the initial Account settings. Account is created using the settings specified in the Account Template for the target Domain. If the settings parameter is specified, it is used to modify the Template settings. This command can be used by Domain Administrators only if they have the CanCreateAccounts access right. Additionally, if a single-mailbox Account format is requested or the LEGACY flag is used, the Domain Administrators must have the CanCreateSpecialAccounts access right. If this command is used by a Domain Administrator, it will use only those Account settings this Administrator is allowed to modify.';
+            break;
+        }
+        case 337: {
+            item.detail = '(CLI/API) RENAMEACCOUNT oldAccountName into newAccountName [ PATH storage ]';
+            item.documentation = 'Use this command to rename Accounts.\noldAccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewAccountName : string\nThis parameter specifies the new Account name. The name can include the Domain name. \nstorage : string\nThis optional parameter specifies the "storage mount Point" directory for the moved Account data (the name should be specified without the .mnt suffix). This command can be used by Domain Administrators only if they have the CanCreateAccounts access right.';
+            break;
+        }
+        case 338: {
+            item.detail = '(CLI/API) DELETEACCOUNT oldAccountName';
+            item.documentation = 'Use this command to remove Accounts.\noldAccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. This command can be used by Domain Administrators only if they have the CanCreateAccounts access right.';
+            break;
+        }
+        case 339: {
+            item.detail = '(CLI/API) SETACCOUNTTYPE accountName accountType';
+            item.documentation = 'Use this command to change the Account type.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \naccountType : MultiMailbox | AGrade | BGrade | CGrade\nThis parameter specifies the new Account type. The current Account type must also belong to this type set. This command can be used by Domain Administrators only if they have the CanCreateAccounts access right.';
+            break;
+        }
+        case 340: {
+            item.detail = '(CLI/API) GETACCOUNTSETTINGS accountName';
+            item.documentation = 'Use this command to get the Account settings. The command produces an output - a dictionary with the Account settings. Only the explicitly set (not the default) Account settings are included into the dictionary.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. You can also specify the single asterisk (*) symbol instead of an Account name. This will indicate the current authenticated Account. \nNote: All users can send the GETACCOUNTSETTINGS command for their own Accounts.';
+            break;
+        }
+        case 341: {
+            item.detail = '(CLI/API) UPDATEACCOUNTSETTINGS accountName newSettings';
+            item.documentation = 'Use this command to update the Account settings.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewSettings : dictionary\nThis dictionary is used to update the Account settings dictionary. It does not have to contain all settings data, the omitted settings will be left unmodified. If a new setting value is specified as the string default, the Account setting value is removed, so the default Account setting value will be used. If this command is used by a Domain Administrator, it will update only those Account settings this Administrator is allowed to modify.';
+            break;
+        }
+        case 342: {
+            item.detail = '(CLI/API) GETACCOUNTEFFECTIVESETTINGS accountName';
+            item.documentation = 'Use this command to get the effective Account settings. The command produces an output - a dictionary with the Account settings. Both the explicitly set and the default Account settings are included into the dictionary.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name (see above). You can also specify the single asterisk (*) symbol instead of an Account name. This will indicate the current authenticated Account. \nNote: All users can send the GETACCOUNTEFFECTIVESETTINGS command for their own Accounts.';
+            break;
+        }
+        case 343: {
+            item.detail = '(CLI/API) SETACCOUNTPASSWORD accountName PASSWORD newPassword [ METHOD method ] [ CHECK ]';
+            item.documentation = 'Use this command to update the Account password.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewPassword : string\nThis string specifies the new Account password. The new password will be stored using the effective Password Encryption setting of the target Account.\nmethod : string\nThis optional parameter specifies the Account Access Mode. If this mode is "SIP", the the Alternative SIP Password Setting is modified, if this mode is RADIUS, then the Alternative RADIUS Password Setting is modified. In all other cases, the CommuniGate Password setting is modified. The new password will be stored using the effective Password Encryption setting of the target Account. To use this command, the user should have the "Basic Settings" Domain Administration right for the target Account Domain. \nAny user can modify her own Account password. In this case, or when the CHECK keyword is explicitly specified, the operation succeeds only if the the supplied password matches the size and complexity restrictions and the Account CanModifyPassword effective Setting is enabled.';
+            break;
+        }
+        case 344: {
+            item.detail = '(CLI/API) VERIFYACCOUNTPASSWORD accountName PASSWORD password';
+            item.documentation = 'Use this command to verify the Account password.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \npassword : string\nThis string is used to specify the password to check (in the clear text format). To use this command, the user should have any Domain Administration right for the target Account Domain.';
+            break;
+        }
+        case 345: {
+            item.detail = '(CLI/API) GETACCOUNTALIASES accountName';
+            item.documentation = 'Use this command to get the list of Account aliases. The command produces an output - an array with the Account alias names.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 346: {
+            item.detail = '(CLI/API) SETACCOUNTALIASES accountName newAliases';
+            item.documentation = 'Use this command to set the Account aliases.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewAliases : array\nThis array should contain the Account alias name strings. All old Account aliases are removed. This command can be used by Domain Administrators only if they have the CanCreateAliases access right.';
+            break;
+        }
+        case 347: {
+            item.detail = '(CLI/API) GETACCOUNTTELNUMS accountName';
+            item.documentation = 'Use this command to get the list of telephone numbers assigned to the Account. The command produces an output - an array with the assigned numbers.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 348: {
+            item.detail = '(CLI/API) SETACCOUNTTELNUMS accountName newTelnums';
+            item.documentation = 'Use this command to assign telephone numbers to the Account.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewTelnums : array\nThis array should contain the telephone number strings. All old numbers assigned to the Account are removed. This command can be used by Domain Administrators only if they have the CanCreateTelnums access right.';
+            break;
+        }
+        case 349: {
+            item.detail = '(CLI/API) MODIFYACCOUNTTELNUMS accountName parameters';
+            item.documentation = 'Use this command to change telephone numbers assigned to the Account.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nparameters : dictionary\nThis dictionary should contain the op string element specifying the requested operation: add \nthe parameters dictionary must contain the telnum string element with a telnum number to be added (atomically) to the set of Telnums assigned to the specified Account. If this set already contains this Telnum, an error code is returned.\ndel\nthe parameters dictionary must contain the telnum string element with a telnum number to be removed (atomically) from the set of Telnums assigned to the specified Account. If this set does not contain this Telnum, an error code is returned.\npop\nThe parameters dictionary must not contain any other elements. The first Telnum assigned to the specified Account is atomically removed from the Account Telnum set, and copied into the command result dictionary. If the Account Telnum set was empty, no error code is returned, and no element is copied into the command result dictionary. The command produces an output - a dictionary. For the pop operation, this dictionary can contain the telnum string element - the Telnum removed from the Account Telnum set. \nThis command can be used by Domain Administrators only if they have the CanCreateTelnumsaccess right.';
+            break;
+        }
+        case 350: {
+            item.detail = '(CLI/API) GETACCOUNTMAILRULES accountName';
+            item.documentation = 'Use this command to get the list of Account Queue Rules. The command produces an output - an array of the Queue Rules specified for the Account.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 351: {
+            item.detail = '(CLI/API) SETACCOUNTMAILRULES accountName newRules';
+            item.documentation = 'Use this command to set the Account Queue Rules.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewRules : array\nThis array should contain the Account Queue Rules. All old Account Queue Rules are removed. This command can be used by Domain Administrators only if they have the RulesAllowed access right. This command can be used by any Account user to modify own Rules (subject to "allowed actions" restrictions).';
+            break;
+        }
+        case 352: {
+            item.detail = '(CLI/API) GETACCOUNTSIGNALRULES accountName';
+            item.documentation = 'Use this command to get the list of Account Signal Rules. The command produces an output - an array of the Signal Rules specified for the Account.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 353: {
+            item.detail = '(CLI/API) SETACCOUNTSIGNALRULES accountName newRules';
+            item.documentation = 'Use this command to set the Account Signal Rules.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewRules : array\nThis array should contain the Account Signal Rules. All old Account Signal Rules are removed. This command can be used by Domain Administrators only if they have the SignalRulesAllowed access right.';
+            break;
+        }
+        case 354: {
+            item.detail = '(CLI/API) UPDATEACCOUNTMAILRULE accountName newRule\nUPDATEACCOUNTMAILRULE accountName DELETE oldRule';
+            item.documentation = 'Use these commands to update an Account Queue Rule. \naccountName : string\nThis parameter specifies the name of an existing Account. The name can include the Domain name.\nnewRule : array\nThis parameter should be an array, its first element specifies the Rule priority, its second element specifies the Rule name. The optional third, forth, and fifth elements specify the Rule conditions, Rule actions, and Rule comment. If the parameter array contains less than 4 elements, the array first element is used to update the priority of the already existing Rule with the name specified as the second array element. If such a Rule does not exist, the command returns an error. If the parameter array contains 4 or more elements, the entire parameter array is stored as a new Rule. If there is an existing Rule with the same name, it is removed.\noldRule : string\nThis string parameter (specified after the DELETE keyword) specifies a name of the Rule to be removed. If such a Rule does not exist, the command does nothing and it does not return an error. The UpdateAccountMailRule command can be used by Domain Administrators only if they have the RulesAllowed access right. This command can be used by any Account user to modify own Rules (subject to "allowed actions" restrictions).';
+            break;
+        }
+        case 355: {
+            item.detail = '(CLI/API) UPDATEACCOUNTSIGNALRULE accountName newRule\nUPDATEACCOUNTSIGNALRULE accountName DELETE oldRule';
+            item.documentation = 'Use these commands to update an Account Signal Rule. \naccountName : string\nThis parameter specifies the name of an existing Account. The name can include the Domain name.\nnewRule : array\nThis parameter should be an array, its first element specifies the Rule priority, its second element specifies the Rule name. The optional third, forth, and fifth elements specify the Rule conditions, Rule actions, and Rule comment. If the parameter array contains less than 4 elements, the array first element is used to update the priority of the already existing Rule with the name specified as the second array element. If such a Rule does not exist, the command returns an error. If the parameter array contains 4 or more elements, the entire parameter array is stored as a new Rule. If there is an existing Rule with the same name, it is removed.\noldRule : string\nThis string parameter (specified after the DELETE keyword) specifies a name of the Rule to be removed. If such a Rule does not exist, the command does nothing and it does not return an error. The UpdateAccountSignalRule command can be used by Domain Administrators only if they have the SignalRulesAllowed access right. This command can be used by any Account user to modify own Rules (subject to "allowed actions" restrictions).';
+            break;
+        }
+        case 356: {
+            item.detail = '(CLI/API) GETACCOUNTRPOPS accountName';
+            item.documentation = 'Use this command to get the list of Account RPOP records. The command produces an output - a dictionary with RPOP records specified for the Account.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 357: {
+            item.detail = '(CLI/API) SETACCOUNTRPOPS accountName newRecords';
+            item.documentation = 'Use this command to set the Account RPOP records.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewRecords : dictionary\nThis dictionary should contain the Account RPOP records. All old Account RPOP records are removed. This command can be used by Domain Administrators only if they have the CanModifyRPOP access right.';
+            break;
+        }
+        case 358: {
+            item.detail = '(CLI/API) GETACCOUNTRSIPS accountName';
+            item.documentation = 'Use this command to get the list of Account RSIP records. The command produces an output - a dictionary with RSIP records specified for the Account.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 359: {
+            item.detail = '(CLI/API) SETACCOUNTRSIPS accountName newRecords';
+            item.documentation = 'Use this command to set the Account RSIP records.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewRecords : dictionary\nThis dictionary should contain the Account RSIP records. All old Account RSIP records are removed. This command can be used by Domain Administrators only if they have the CanModifyRSIP access right.';
+            break;
+        }
+        case 360: {
+            item.detail = '(CLI/API) UPDATESCHEDULEDTASK accountName taskData';
+            item.documentation = 'Use this command to set the Account Scheduled Task records.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.\ntaskData : dictionary\nThis dictionary should contain the Scheduled Task data: \nid - the Scheduled Task name string. If there is no existing task with this name, a new Scheduled Task record is created. \nprogram - the Scheduled Task program name string. It should be a name of the Real-Time Application available for the Account Domain environment. If this element is not specfied, an existing Scheduled Task record (if any) is deleted. \nparameter - an optional simple Object. When the Scheduled Task program is launched, this Object is passed to it as its startParameter element. \nwhen - a timestamp (GMT time) specifying when the Scheduled Task should be launched. \nperiod - an optional parameter - a day, week, month , or year string, or a number. When specified, the Scheduled Task is automatically re-scheduled after the specified period of time (if this parameter is a number, then it specified the number of seconds). \nIf this parameter is not specified, the Scheduled Task record is removed as soon as the Task is launched. When a Scheduled Task is launched, its main entry point is launched. The Task startParameter array contains the following elements: \nstartParameter[0] is the Scheduled Task name string \nstartParameter[1] is the timestamp specifying the moment the Task was started \nstartParameter[2] (optional) is the Scheduled Task parameter data \nThis command can be used by Domain Administrators with the CanModifyRSIP access right for the target Account.';
+            break;
+        }
+        case 361: {
+            item.detail = '(CLI/API) GETACCOUNTRIGHTS accountName';
+            item.documentation = 'Use this command to get the array of the Server or Domain access rights granted to the specified user. The command produces output data - an array listing all Account Server Access rights.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 362: {
+            item.detail = '(CLI/API) GETACCOUNTINFO accountName [Key keyName | ( keyList) ]';
+            item.documentation = 'Use this command to get an element of the Account "info" dictionary. The command produces an output - see below. \naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. You can also specify the single asterisk ( *) symbol instead of an Account name. This will indicate the current authenticated Account. \nkeyList : array\nThis optional parameter specifies the names of the info keys to retrieve. Note that when Account "info" data are stored in .info dictionary files, the "info" elements have dictionary names starting with the hash (#) symbol. You should NOT include the hash symbol into the keyName parameter of the GETACCOUNTINFO command. Sample: GETACCOUNTINFO "user1@domain1.com" (LastLogin,LastAddress) \nNote: the "info" element names are case-sensitive. The output is a dictionary with all those "info" elements that exist and are specified in the keyList array. \nkeyName : string\nThis optional parameter specifies the name of the requested "info" element. It can be specified only if the keyList parameter is not specified. Note that when Account "info" data are stored in .info dictionary files, the "info" elements have dictionary names starting with the hash symbol. You should NOT include the hash symbol into the keyName parameter of the GETACCOUNTINFO command. Sample: GETACCOUNTINFO "user1@domain1.com" Key LastLogin \nNote: the "info" element names are case-sensitive. The output is the specified "info" element. If the element is not found, the output is an empty string - two quotation marks (""). \nNote: All users can use the GETACCOUNTINFO command to retrieve elements from their own Account "info" data.';
+            break;
+        }
+        case 363: {
+            item.detail = '(CLI/API) GETACCOUNTPREFS accountName';
+            item.documentation = 'Use this command to get the Account Preferences. The command produces an output - a dictionary with the Account Preferences. \naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nNote: All users can use the GETACCOUNTPREFS command to retrieve their own Account Preferences.';
+            break;
+        }
+        case 364: {
+            item.detail = '(CLI/API) UPDATEACCOUNTPREFS accountName newSettings';
+            item.documentation = 'Use this command to modify the Account Preferences.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.\nnewSettings : dictionary\nThis dictionary is used to update the Account Preferences dictionary. It does not have to contain all Preferences data, the omitted elements will be left unmodified. If a new Preferences value is specified as the string default, the Preferences value is removed, so the default Preferences value will be used. This command can be used by Domain Administrators only if they have the WebUserSettings access right.';
+            break;
+        }
+        case 365: {
+            item.detail = '(CLI/API) SETACCOUNTPREFS accountName newSettings';
+            item.documentation = 'Use this command to set the Account Preferences.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.\nnewSettings : dictionary\nThis dictionary should contain the new Account Preferences. All old Account Preferences are removed. This command can be used by Domain Administrators only if they have the WebUserSettings access right.';
+            break;
+        }
+        case 366: {
+            item.detail = '(CLI/API) GETACCOUNTEFFECTIVEPREFS accountName';
+            item.documentation = 'Use this command to get the effective Account Preferences. The command produces an output - a dictionary with Account Preferences. Both the explicitly set and the default settings are included into that dictionary.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name (see above). \nNote: All users can use this command to retrieve their own effective Preferences.';
+            break;
+        }
+        case 367: {
+            item.detail = '(CLI/API) KILLACCOUNTSESSIONS accountName';
+            item.documentation = 'Use this command to interrupt all Account sessions (POP, IMAP, FTP, WebUser, etc.).\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nNote: All Domain Administrators can use this command.';
+            break;
+        }
+        case 368: {
+            item.detail = '(CLI/API) GETACCOUNTACL accountName [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to get the Account Rights ACLs (Access Control Lists). The command produces an output - a dictionary with the ACL elements.\naccountName : string \nThis parameter specifies the name of an existing Account (target Account). The asterisk (*) symbol can be used to specify the current authenticated Account.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed. If this name is specified, the ACL info is returned only if the specified Account has the Admin access right for the target Account.';
+            break;
+        }
+        case 369: {
+            item.detail = '(CLI/API) SETACCOUNTACL accountName [ AUTH authAccountName ] newACL';
+            item.documentation = 'Use this command to modify the access control list for the Account Access Rights.\naccountName : string \nThis parameter specifies the name of an existing Account (target Account). The asterisk (*) symbol can be used to specify the current authenticated Account. \nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed. If this name is specified, the ACL info is updated only if the specified Account has the Admin access right for target Account.\nnewACL : dictionary\nThis parameter specifies the access right elements to be modified. Each dictionary key specifies an identifier, and the key value should be a string with access right symbols. If the key value string starts with the minus ("-") symbol, access rights specified in the string are removed from the access right element. If the key value string starts with the plus ("+") symbol, access rights specified in the string are added to the access right element. In other cases, access rights specified in the string replace the set of rights in the access right element. If the access right element for the specified key did not exist, it is created. If the new access right element has empty set of access rights, the element is removed.';
+            break;
+        }
+        case 370: {
+            item.detail = '(CLI/API) GETACCOUNTACLRIGHTS accountName AUTH authAccountName';
+            item.documentation = 'This command produces an output - a string with the effective access rights for the given authAccountName.\naccountName : string \nThis parameter specifies the name of an existing Account (target Account). The asterisk (*) symbol can be used to specify the current authenticated Account. \nauthAccountName : string\nThis parameter specifies the name of an Account whose effective access rights for the target Account should be retrieved.';
+            break;
+        }
+        case 371: {
+            item.detail = '(CLI/API) SETACCOUNTSETTINGS accountName newSettings';
+            item.documentation = 'Use this command to change the Account settings.\naccountName : string \nThis parameter specifies the name of an existing Account.\nnewSettings : dictionary\nThis dictionary is used to replace the Account settings dictionary. All old Account settings are removed.';
+            break;
+        }
+        case 372: {
+            item.detail = '(CLI/API) GETACCOUNTLOCATION accountName';
+            item.documentation = 'Use this command to get the Account file directory path (for multi-mailbox Accounts) or the Account INBOX Mailbox path (for single-mailbox Accounts). The command produces an output - a string with the Account file path. The path is relative to the file directory of the Account Domain.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 373: {
+            item.detail = '(CLI/API) GETACCOUNTPRESENCE accountName';
+            item.documentation = 'Use this command to get the Account "presence" status. The command produces an output: \narray of two strings - the Account "presence" status and its custom status message, or \nstring - the Account "presence" status (if no custom status message is set), or \nnull-object - if the Account "presence" status is not set at all. \naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name.';
+            break;
+        }
+        case 374: {
+            item.detail = '(CLI/API) LISTGROUPS [ domainName ]';
+            item.documentation = 'Use this command to get the list of all Groups in the Domain. The command produces output data - an array with the names of all Groups in the specified (or default) Domain.\ndomainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 375: {
+            item.detail = '(CLI/API) CREATEGROUP groupName [ settings ]';
+            item.documentation = 'Use this command to create new Groups.\ngroupName : string \nThis parameter specifies the name for the new Group. The name can contain the @ symbol followed by the Domain name, in this case the Group is created in the specified Domain. If the Domain name is not specified, the command applies to the administrator Domain. \nsettings : dictionary\nThis optional parameter specifies the initial Group settings and the members list. This command can be used by Domain Administrators only if they have the CanCreateGroups access right.';
+            break;
+        }
+        case 376: {
+            item.detail = '(CLI/API) RENAMEGROUP oldGroupName into newGroupName';
+            item.documentation = 'Use this command to rename Groups.\noldGroupName : string \nThis parameter specifies the name of an existing Group. The name can include the Domain name. \nnewGroupName : string\nThis parameter specifies the new Group name. The name can include the Domain name. This command can be used by Domain Administrators only if they have the CanCreateGroups access right.';
+            break;
+        }
+        case 377: {
+            item.detail = '(CLI/API) DELETEGROUP groupName';
+            item.documentation = 'Use this command to remove Groups.\ngroupName : string \nThis parameter specifies the name of an existing Group. The name can include the Domain name. This command can be used by Domain Administrators only if they have the CanCreateGroups access right.';
+            break;
+        }
+        case 378: {
+            item.detail = '(CLI/API) GETGROUP groupName';
+            item.documentation = 'Use this command to get the Group settings. The command produces an output - a dictionary with the Group settings and members.\ngroupName : string \nThis parameter specifies the name of an existing Group. The name can include the Domain name.';
+            break;
+        }
+        case 379: {
+            item.detail = '(CLI/API) SETGROUP groupName newSettings';
+            item.documentation = 'Use this command to set the Group settings.\ngroupName : string \nThis parameter specifies the name of an existing Group. The name can include the Domain name.\nnewSettings : dictionary\nThis dictionary is used to replace the Group settings dictionary. This command can be used by Domain Administrators only if they have the CanCreateGroups access right.';
+            break;
+        }
+        case 380: {
+            item.detail = '(CLI/API) LISTFORWARDERS [ domainName ]';
+            item.documentation = 'Use this command to get the list of all Forwarders in the Domain. The command produces output data - an array with the names of all Forwarders in the specified (or default) Domain.\ndomainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 381: {
+            item.detail = '(CLI/API) CREATEFORWARDER forwarderName TO address';
+            item.documentation = 'Use this command to create new Forwarders.\nforwarderName : string \nThis parameter specifies the name for the new Forwarder. The name can contain the @ symbol followed by the Domain name, in this case the Forwarder is created in the specified Domain. If the Domain name is not specified, the command applies to the administrator Domain. \naddress : string\nThis parameter specifies the E-mail address the Forwarder should reroute E-mail messages and Signals to. This command can be used by Domain Administrators only if they have the CanCreateForwardersaccess right.';
+            break;
+        }
+        case 382: {
+            item.detail = '(CLI/API) RENAMEFORWARDER oldForwarderName INTO newForwarderName';
+            item.documentation = 'Use this command to rename Forwarders.\noldForwarderName : string \nThis parameter specifies the name of an existing Forwarder. The name can include the Domain name. \nnewForwarderName : string\nThis parameter specifies the new Forwarder name. The name can include the Domain name. This command can be used by Domain Administrators only if they have the CanCreateForwardersaccess right.';
+            break;
+        }
+        case 383: {
+            item.detail = '(CLI/API) DELETEFORWARDER forwarderName';
+            item.documentation = 'Use this command to remove Forwarders.\nforwarderName : string \nThis parameter specifies the name of an existing Forwarder. The name can include the Domain name. This command can be used by Domain Administrators only if they have the CanCreateForwardersaccess right.';
+            break;
+        }
+        case 384: {
+            item.detail = '(CLI/API) GETFORWARDER forwarderName';
+            item.documentation = 'Use this command to get the Forwarder address. The command produces an output - a string with the E-mail address this Forwarder reroutes all E-mail messages and Signals to.\nforwarderName : string \nThis parameter specifies the name of an existing Forwarder. The name can include the Domain name.';
+            break;
+        }
+        case 385: {
+            item.detail = '(CLI/API) FINDFORWARDERS domainName TO forwarderAddress';
+            item.documentation = 'Use this command to find all Forwarders pointing to the specified address. The command produces an output - an array with the found Forwarder names.\ndomainName : string \nThis parameter specifies the Domain name.\nforwarderAddress : string\nThis parameter specifies an E-mail address to look for.';
+            break;
+        }
+        case 386: {
+            item.detail = '(CLI/API) LISTDOMAINNAMEDTASKS [ domainName ]';
+            item.documentation = 'Use this command to get the list of all Named Tasks in the Domain. The command produces output data - a dictionary where the keys are the Named Task names, and the values are dictionaries, containing the Task owner name, the task Real Name, and the name of the Real-Time Application program this Named Task runs.\ndomainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 387: {
+            item.detail = '(CLI/API) LISTACCOUNTNAMEDTASKS accountName';
+            item.documentation = 'Use this command to get the list of all Named Tasks owned by the specified Account. The command produces output data - a dictionary containing the same data as the LISTDOMAINNAMEDTASKS command result.\naccountName : string \nThis parameter specifies the owner Account name.';
+            break;
+        }
+        case 388: {
+            item.detail = '(CLI/API) CREATENAMEDTASK taskName FOR accountName';
+            item.documentation = 'Use this command to create new Named Tasks.\ntaskName : string \nThis parameter specifies the name for the new Named Task. The name can contain the @ symbol followed by the Domain name, in this case the Named Task is created in the specified Domain. If the Domain name is not specified, the command applies to the administrator Domain. \naccountName : string\nThis parameter specifies the owner Account name. It must not contain the @ symbol and a Domain name, as this owner Account must be in the same Domain as the Named Task itself. This command can be used by Domain Administrators only if they have the CanCreateNamedTasksaccess right.';
+            break;
+        }
+        case 389: {
+            item.detail = '(CLI/API) RENAMENAMEDTASK oldTaskName into newTaskName';
+            item.documentation = 'Use this command to rename Named Tasks.\noldTaskName : string \nThis parameter specifies the name of an existing Named Task. The name can include the Domain name (see above). \nnewTaskName : string\nThis parameter specifies the new Named Task name. This command can be used by Domain Administrators only if they have the CanCreateNamedTasksaccess right.';
+            break;
+        }
+        case 390: {
+            item.detail = '(CLI/API) DELETENAMEDTASK taskName';
+            item.documentation = 'Use this command to remove Named Tasks.\ntaskName : string \nThis parameter specifies the name of an existing Named Task. The name can include the Domain name (see above). This command can be used by Domain Administrators only if they have the CanCreateNamedTasksaccess right.';
+            break;
+        }
+        case 391: {
+            item.detail = '(CLI/API) GETNAMEDTASK taskName';
+            item.documentation = 'Use this command to get the Named Task settings. The command produces an output - a dictionary with the Named Task settings.\ntaskName : string \nThis parameter specifies the name of an existing Named Task. The name can include the Domain name.';
+            break;
+        }
+        case 392: {
+            item.detail = '(CLI/API) UPDATENAMEDTASK taskName newSettings';
+            item.documentation = 'Use this command to set the Named Task settings.\ntaskName : string \nThis parameter specifies the name of an existing Named Task. The name can include the Domain name.\nnewSettings : dictionary\nThis dictionary is used to update the Named Task settings dictionary. This command can be used by Domain Administrators only if they have the CanCreateNamedTasks access right.';
+            break;
+        }
+        case 393: {
+            item.detail = '(CLI/API) SETACCOUNTRIGHTS accountName newRights';
+            item.documentation = 'Use this command to set the Account Server Access rights.\naccountName : string \nThis parameter specifies the name of an existing Account. The name can include the Domain name. \nnewRights : array\nThis array should contain the Access Right codes. All old Account access rights are removed. To set access rights for an Account in a secondary Domain (i.e. Domain Administration Rights), the user may have only the All Domains Server access right.';
+            break;
+        }
+        case 394: {
+            item.detail = '(CLI/API) LISTMAILBOXES accountName [ FILTER filter ] [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to get the list of Account Mailboxes. The command produces an output - a dictionary. Each dictionary key specifies a Mailbox name; if the authAccountName user is not specified or if the specified user has the Select access right for this Mailbox, the key value contains a dictionary with Mailbox information; if the specified authAccountName does not have the Select access right, the key value contains an empty array; if there is a "mailbox folder" with the dictionary key, but there is no "regular" Mailbox with that name, the key value is an empty array; if there is a "mailbox folder" with the dictionary key, and there is also a "regular" Mailbox with that name, the key value is an array with one element - the information for the "regular" Mailbox (either a dictionary or an empty array).\naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nfilter : string\nThis optional parameter specifies the filter string to apply to Account Mailbox names. The filter can use the same wildcard symbols "*" and "%" as the IMAP LIST command. If the filter is not specified, the filter string "*" is assumed, and all Account Mailboxes are returned.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the LIST operation should be executed. If this name is specified, the output includes only those Mailboxes for which the specified Account has the Lookup Mailbox access right.';
+            break;
+        }
+        case 395: {
+            item.detail = '(CLI/API) CREATEMAILBOX accountName MAILBOX mailboxName [ CLASS mailboxClass ] [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to create a Mailbox in the specified Account. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name for the new Mailbox.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf this operation should be executed.\nmailboxClass : string\nThis optional parameter specifies the Mailbox class for the new Mailbox';
+            break;
+        }
+        case 396: {
+            item.detail = '(CLI/API) DELETEMAILBOX accountName MAILBOX mailboxName [ AUTH authAccountName ] DELETEMAILBOX accountName MAILBOXES mailboxName [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to remove a Mailbox from the specified Account. If the keyword MAILBOXES is used, all nested Mailboxes (submailboxes) are deleted, too. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name of the Mailbox to be deleted.\nauthaccountname : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed. If this name is specified, the Mailbox is deleted only if the specified Account has the Create access right for the "outer" Mailbox (this means that an Account should have the Create access right for the Archive Mailbox in order to delete the Archive/March Mailbox), and the specified Account should have the DELETE right for the specified Mailbox.';
+            break;
+        }
+        case 397: {
+            item.detail = '(CLI/API) RENAMEMAILBOX accountName MAILBOX mailboxName INTO newMailboxName [ AUTH authAccountName ] RENAMEMAILBOX accountName MAILBOXES mailboxName INTO newMailboxName [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to rename a Mailbox in the specified Account. If the keyword MAILBOXES is used, all nested Mailboxes (submailboxes) are renamed, too. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name of the Mailbox to be renamed.\nnewMailboxName : string\nThis parameter specifies the new name for the Mailbox.\nauthaccountname : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed. If this name is specified, the Mailbox is renamed only if the specified Account has a right to perform the DELETEMAILBOX operation with the original Mailbox name and the CREATEMAILBOX operation with the new Mailbox name.';
+            break;
+        }
+        case 398: {
+            item.detail = '(CLI/API) GETMAILBOXINFO accountName MAILBOX mailboxName [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to get the internal information about the Account Mailbox. The command produces an output - a dictionary with the Mailbox internal information. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name of an existing Mailbox in the specified Account.\nauthaccountname : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed. If this name is specified, the Mailbox info is returned only if the specified Account has the Select Mailbox access right.';
+            break;
+        }
+        case 399: {
+            item.detail = '(CLI/API) GETMAILBOXACL accountName MAILBOX mailboxName [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to get the access control list for the Account Mailbox. The command produces an output - a dictionary with the Mailbox access elements. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name of an existing Mailbox in the specified Account.\nauthaccountname : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed. If this name is specified, the ACL info is returned only if the specified Account has the Admin access right for the specified Mailbox.';
+            break;
+        }
+        case 400: {
+            item.detail = '(CLI/API) SETMAILBOXACL accountName MAILBOX mailboxName [ AUTH authAccountName ] newACL';
+            item.documentation = 'Use this command to modify the access control list for the Account Mailbox. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name of an existing Mailbox in the specified Account.\nauthaccountname : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed. If this name is specified, the ACL info is updated only if the specified Account has the Admin access right for the specified Mailbox.\nnewACL : dictionary\nThis parameter specifies the access right elements to be modified. Each dictionary key specifies an identifier, and the key value should be a string with access right symbols. If the key value string starts with the minus ("-") symbol, access rights specified in the string are removed from the access right element. If the key value string starts with the plus ("+") symbol, access rights specified in the string are added to the access right element. In other cases, access rights specified in the string replace the set of rights in the access right element. If the access right element for the specified key did not exist, it is created. If the new access right element has empty set of access rights, the element is removed.';
+            break;
+        }
+        case 401: {
+            item.detail = '(CLI/API) GETMAILBOXRIGHTS accountName MAILBOX mailboxName AUTH authAccountName';
+            item.documentation = 'This command produces an output - a string with the effective Mailbox access rights for the given authAccountName. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name of an existing Mailbox in the specified Account.\nauthaccountname : string\nThis parameter specifies the name of an Account whose effective access rights should be retrieved.';
+            break;
+        }
+        case 402: {
+            item.detail = '(CLI/API) SETMAILBOXCLASS accountName MAILBOX mailboxName [ AUTH authAccountName ] CLASS newClass';
+            item.documentation = 'Use this command to set the "class" of an Account Mailbox. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nmailboxName : string\nThis parameter specifies the name of an existing Mailbox in the specified Account.\nauthaccountname : string\nThis optional parameter specifies the name of an Account whose Mailbox access rights should be used.\nnewClass : string\nThe Mailbox class.';
+            break;
+        }
+        case 403: {
+            item.detail = '(CLI/API) GETMAILBOXSUBSCRIPTION accountName';
+            item.documentation = 'This command produces an output - an array with the list of Account "subscribed Mailboxes". \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.';
+            break;
+        }
+        case 404: {
+            item.detail = '(CLI/API) SETMAILBOXSUBSCRIPTION accountName newSubscription';
+            item.documentation = 'Use this command to set the Account "subscribed Mailboxes" list. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nnewSubscription : array\nThe list of subscribed Mailboxes. Each array element should be a string with a Mailbox name.';
+            break;
+        }
+        case 405: {
+            item.detail = '(CLI/API) GETMAILBOXALIASES accountName';
+            item.documentation = 'This command produces an output - a dictionary. Each dictionary key is the name of an existing Mailbox alias, and the key value is a string with the name of Mailbox this alias points to. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.';
+            break;
+        }
+        case 406: {
+            item.detail = '(CLI/API) SETMAILBOXALIASES accountName newAliases';
+            item.documentation = 'Use this command to set the Account Mailbox aliases. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nnewAliases : dictionary\nThe set of new Mailbox aliases.';
+            break;
+        }
+        case 407: {
+            item.detail = '(CLI/API) GETDOMAINALERTS [ domainName ]';
+            item.documentation = 'Use this command to get the Domain Alerts. The command produces an output - a dictionary with the Domain alert strings and time stamps. \ndomainName : string \nThis optional parameter specifies the name of an existing Domain.';
+            break;
+        }
+        case 408: {
+            item.detail = '(CLI/API) SETDOMAINALERTS [ domainName ] newAlerts';
+            item.documentation = 'Use this command to change the Domain alerts. \ndomainName : string \nThis optional parameter specifies the name of an existing Domain.\nnewAlerts : dictionary\nThis dictionary is used to replace the Domain alert dictionary. All old Domain alerts are removed.';
+            break;
+        }
+        case 409: {
+            item.detail = '(CLI/API) POSTDOMAINALERT domainName ALERT newAlert';
+            item.documentation = 'Use this command to post a Domain-wide alert message. \ndomainName : string \nThis parameter specifies the name of an existing Domain.\nnewAlert : string\nThis string specifies the Alert text.';
+            break;
+        }
+        case 410: {
+            item.detail = '(CLI/API) REMOVEDOMAINALERT domainName ALERT timeStamp';
+            item.documentation = 'Use this command to remove a Domain-wide alert message. \ndomainName : string \nThis parameter specifies the name of an existing Domain.\ntimeStamp : string\nThis string specifies the time stamp of the Alert message to be removed.';
+            break;
+        }
+        case 411: {
+            item.detail = '(CLI/API) GETACCOUNTALERTS accountName';
+            item.documentation = 'Use this command to get the Account Alerts. The command produces an output - a dictionary with the Account alert strings and time stamps. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.';
+            break;
+        }
+        case 412: {
+            item.detail = '(CLI/API) SETACCOUNTALERTS accountName newAlerts';
+            item.documentation = 'Use this command to change the Account alerts. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nnewAlerts : dictionary\nThis dictionary is used to replace the Account alert dictionary. All old Account alerts are removed.';
+            break;
+        }
+        case 413: {
+            item.detail = '(CLI/API) POSTACCOUNTALERT accountName ALERT newAlert';
+            item.documentation = 'Use this command to post an Account alert message. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nnewAlert : string\nThis string specifies the Alert text.';
+            break;
+        }
+        case 414: {
+            item.detail = '(CLI/API) REMOVEACCOUNTALERT accountName ALERT timeStamp';
+            item.documentation = 'Use this command to remove an Account alert message. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\ntimeStamp : string\nThis string specifies the time stamp of the Alert message to be removed.';
+            break;
+        }
+        case 415: {
+            item.detail = '(CLI/API) GETSERVERALERTS';
+            item.documentation = 'Use this command to get the list of the server-wide Alerts. The command produces an output - a dictionary with the server alert strings and time stamps.';
+            break;
+        }
+        case 416: {
+            item.detail = '(CLI/API) SETSERVERALERTS newAlerts';
+            item.documentation = 'Use this command to change the server-wide Alerts. \nnewAlerts : dictionary \nThis dictionary is used to replace the server-wide Alert dictionary. All old server-wide alerts are removed.';
+            break;
+        }
+        case 417: {
+            item.detail = '(CLI/API) POSTSERVERALERT newAlert';
+            item.documentation = 'Use this command to post a server-wide Alert message. \nnewAlert : string \nThis string specifies the Alert text.';
+            break;
+        }
+        case 418: {
+            item.detail = '(CLI/API) REMOVESERVERALERT timeStamp';
+            item.documentation = 'Use this command to remove a server-wide Alert message. \ntimeStamp : string \nThis string specifies the time stamp of the Alert message to be removed.';
+            break;
+        }
+        case 419: {
+            item.detail = '(CLI/API) GETCLUSTERALERTS';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the GETSERVERALERTS command to work with the cluster-wide Alerts.';
+            break;
+        }
+        case 420: {
+            item.detail = '(CLI/API) SETCLUSTERALERTS newAlerts';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the SETSERVERALERTS command to work with the cluster-wide Alerts.';
+            break;
+        }
+        case 421: {
+            item.detail = '(CLI/API) POSTCLUSTERALERT newAlert';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the POSTSERVERALERT command to work with the cluster-wide Alerts.';
+            break;
+        }
+        case 422: {
+            item.detail = '(CLI/API) REMOVECLUSTERALERT timeStamp';
+            item.documentation = 'This command is available in the Dynamic Cluster only. Use this command instead of the REMOVESERVERALERT command to work with the cluster-wide Alerts.';
+            break;
+        }
+        case 423: {
+            item.detail = '(CLI/API) READSTORAGEFILE accountName FILE fileName [ OFFSET position ] [ SIZE sliceSize ] [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to retrieve a file from the Account File Storage. This command produces an output - a array of 3 elements. The first element is a datablock with the content of the specified file, the second element is a timestamp with the file modification date, and the third element is a number equal to the current file size. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nfileName : string\nThis parameter specifies the name of the File Storage file to be retrieved.\nposition : number\nIf this parameter is specified the File Storage file is read starting from the specified file position.\nsliceSize : number\nIf this parameter is specified, no more than the specified number of file data bytes is returned.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.';
+            break;
+        }
+        case 424: {
+            item.detail = '(CLI/API) WRITESTORAGEFILE accountName FILE fileName [ OFFSET position ] [ AUTH authAccountName ] DATA fileData';
+            item.documentation = 'Use this command to store a file in the Account File Storage. If a File Storage file with the specified name already exists, the old file is removed. If the fileName specifies a directory (it ends with the slash (/) symbol) the command creates a directory. In this case, the OFFSET position part must be absent, and the fileData parameter must be an empty datablock. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nfileName : string\nThis parameter specifies the name for the File Storage file.\nposition : offset\nIf this parameter is absent, or it exists and it is the zero number, the existing file (if any) is removed first, and a new file is created. If this parameter is a non-zero number, its value must be positive; the File Storage file is rewritten/extended starting from the specified file position. The file should already exist, and the specified position should not be larger than the current file size. If this option is BEG, then the file should already exist, the file is rewritten from the beginning, but its old data beyond the end of the fileData (if any) is not removed. If this option is END, then the fileData is appended to the end of the file. If the file does not exist, it is created. If this option is NEW, then the file must not exist, a new file is created and fileData is stored in it. \nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.\nfileData : datablock\nThis parameter contains the file data.';
+            break;
+        }
+        case 425: {
+            item.detail = '(CLI/API) RENAMESTORAGEFILE accountName FILE oldFileName INTO newFileName [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to rename a file or a file directory in the Account File Storage. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\noldFileName : string\nThis parameter specifies the name of an existing File Storage file or file directory. \nnewFileName : string\nThis parameter specifies the new name for the File Storage file or file directory.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.';
+            break;
+        }
+        case 426: {
+            item.detail = '(CLI/API) DELETESTORAGEFILE accountName FILE fileName [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to remove a file or a file directory from the Account File Storage. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nfileName : string\nThis parameter specifies the name of an existing File Storage file or file directory. \nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.';
+            break;
+        }
+        case 427: {
+            item.detail = '(CLI/API) LISTSTORAGEFILES accountName [ PATH filePath ] [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to list all files in the File Storage top directory or in one of its subdirectories. This command produces an output - a dictionary, where each key is a name of the File Storage file, and the key value is a dictionary for a regular file and an empty array for subdirectories. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nfilePath : string\nThis optional parameter specifies the name of the File Storage subdirectory. You can omit this parameter along with the PATH keyword, in this case the command returns the list of files in the top File Storage directory.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.';
+            break;
+        }
+        case 428: {
+            item.detail = '(CLI/API) GETSTORAGEFILEINFO accountName [ PATH filePath ] [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to get the statistical information about all files in the Account File Storage. This command produces an output - an array with 2 number elements. The first element contains the total size of all File Storage files, the second element contains the number of files in the File Storage. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.';
+            break;
+        }
+        case 429: {
+            item.detail = '(CLI/API) READSTORAGEFILEATTR accountName FILE fileName [ attributes ] [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to read attributes of an Account File Storage file or file directory. This command produces an output - an array of XML elements containing file or file directory attributes. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nfileName : string\nThis parameter specifies the name of an existing File Storage file or file directory. \nattributes : array\nThis optional parameter specifies an array of strings. If specified, only file attributes with names included into this array are retrieved.\nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.';
+            break;
+        }
+        case 430: {
+            item.detail = '(CLI/API) UPDATESTORAGEFILEATTR accountName FILE fileName attributes [ AUTH authAccountName ]';
+            item.documentation = 'Use this command to update attributes of an Account File Storage file or file directory. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nfileName : string\nThis parameter specifies the name of an existing File Storage file or file directory. \nattributes : array\nThis parameter specifies an array of XML elements - the new file attribute values. \nauthAccountName : string\nThis optional parameter specifies the name of an Account on whose behalf the operation should be executed.';
+            break;
+        }
+        case 431: {
+            item.detail = '(CLI/API) GETFILESUBSCRIPTION accountName';
+            item.documentation = 'This command produces an output - an array with the list of Account "subscribed files". \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.';
+            break;
+        }
+        case 432: {
+            item.detail = '(CLI/API) SETFILESUBSCRIPTION accountName newSubscription';
+            item.documentation = 'Use this command to set the Account "subscribed files" list. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account.\nnewSubscription : array\nThe list of subscribed files. Each array element should be a string with a file name.';
+            break;
+        }
+        case 433: {
+            item.detail = '(CLI/API) LISTLISTS [ domainName ]';
+            item.documentation = 'Use this command to get the list of all mailing lists in the Domain. The command produces output data - an array of strings. Each string is the name of a mailing list in the specified (or default) Domain. \ndomainName : string \nThis optional parameter specifies the Domain name.';
+            break;
+        }
+        case 434: {
+            item.detail = '(CLI/API) GETDOMAINLISTS [ domainName ]';
+            item.documentation = 'Use this command to get the list of all mailing lists in the Domain. The command produces output data - a dictionary. Each dictionary key is the name of a mailing list in the specified (or default) Domain. The key value is a numeric string with the actual number of the list subscribers ("-1" if the current number of subscribers is not known). \ndomainName : string \nThis optional parameter specifies the Domain name.';
+            break;
+        }
+        case 435: {
+            item.detail = '(CLI/API) GETACCOUNTLISTS accountName';
+            item.documentation = 'Use this command to get the list of all mailing lists belonging to the specified Account. The command produces output data - a dictionary. Each dictionary key is the name of a mailing list belonging to the specified (or default) Account. The key value is a numeric string with the actual number of the list subscribers ("-1" if the current number of subscribers is not known). \naccountName : string \nThis parameter specifies the list"s owner Account name.';
+            break;
+        }
+        case 436: {
+            item.detail = '(CLI/API) CREATELIST listName for accountName';
+            item.documentation = 'Use this command to create a mailing list. listName : string \nThis parameter specifies the name of a mailing list to create. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default. \naccountName : string\nThis parameter specifies the name of the mailing list owner (without the Domain name). It should be the name of an already existing Account in the mailing list Domain. Domain Administrators can use this command if they have the CanCreateLists Domain access right.';
+            break;
+        }
+        case 437: {
+            item.detail = '(CLI/API) RENAMELIST listName into newName';
+            item.documentation = 'Use this command to rename a mailing list. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default.\nnewName : string\nThis parameter specifies the new name for the mailing list (without the Domain part). Domain Administrators can use this command if they have the CanCreateLists Domain access right.';
+            break;
+        }
+        case 438: {
+            item.detail = '(CLI/API) DELETELIST listName';
+            item.documentation = 'Use this command to remove a mailing list. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default. Domain Administrators can use this command if they have the CanCreateLists Domain access right.';
+            break;
+        }
+        case 439: {
+            item.detail = '(CLI/API) GETLIST listName';
+            item.documentation = 'Use this command to retrieve list settings. The command produces an output - a dictionary with the listName mailing list settings. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default.';
+            break;
+        }
+        case 440: {
+            item.detail = '(CLI/API) UPDATELIST listName newSettings';
+            item.documentation = 'Use this command to modify list settings. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default.\nnewSettings : dictionary\nThis dictionary is used to update the mailing list settings dictionary. It does not have to contain all settings data, the omitted settings will be left unmodified.';
+            break;
+        }
+        case 441: {
+            item.detail = '(CLI/API) LIST listName operation [silently] [confirm] subscriber';
+            item.documentation = 'Use this command to update the subscribers list. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default.\noperation : subscribe | feed | digest | index | null | banned | unsubscribe\nThis parameter specifies the operation. \nsilently\nThis optional parameter tells the server not to send the Welcome/Bye message to the subscriber.\nconfirm\nThis optional parameter tells the server to send a confirmation request to the subscriber.\nsubscriber : E-mail address\nThe subscriber address. It can include the comment part used as the subscriber"s real name. Sample: LIST MyList@mydomain.com FEED confirm "Bill Jones" <BJones@company.com>';
+            break;
+        }
+        case 442: {
+            item.detail = '(CLI/API) LISTSUBSCRIBERS listName [ FILTER filter [ limit ] ]';
+            item.documentation = 'Use this command to retrieve list subscribers. The command produces an output - an array with subscribers E-mail addresses. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default. \nfilter : string\nIf this optional parameter is specified, only the addresses containing the specified string are returned. \nlimit : number\nThis optional parameter limits the number of subscriber addresses returned.';
+            break;
+        }
+        case 443: {
+            item.detail = '(CLI/API) READSUBSCRIBERS listName [ FILTER filter [ limit ] ]';
+            item.documentation = 'Use this command to retrieve list subscribers. The command produces an output - an array, where the first element is a number - the total number of list subscribers, and the second element is an array of subscriber descriptor dictionaries. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default. \nfilter : string\nIf this optional parameter is specified, only subscribers with addresses containing the specified string are returned. \nlimit : number\nThis optional parameter limits the number of subscriber dictionaries returned. \nA dictionary describing a subscriber has the following elements: Sub - E-mail address string\nRealName - an optional string with Real name\nmode - a string with subscription mode (index, digest, null, etc.)\nsubscribeTime - timestamp data specifying the moment when this user subscribed.\nposts - number of postings on this list\nlastBounceTime - optional timestamp data specifying the last time when messages sent to this user failed.\nbounces - optional numeric data specifying the number of failed delivery reports received for this user.';
+            break;
+        }
+        case 444: {
+            item.detail = '(CLI/API) GETSUBSCRIBERINFO listName NAME subscriberAddress';
+            item.documentation = 'Use this command to retrieve information about a list subscriber. The command produces an output - a dictionary with subscriber information. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default.\nsubscriberAddress : string\nThis parameter specifies the E-mail address of the list subscriber. If the subscriber does not exist, an empty dictionary is returned. Otherwise, the dictionary contains the following elements: mode \nThis string element specified the subscription mode (digest, index, etc.) This element is equal to unsubscribeif the address has been unsubscribed, but has not been removed from the list. This element is equal to subscribe if a user has started subscription, but the subscription has not been confirmed.\nconfirmationID - This element contains the subscriber"s Confirmation ID string.\ntimeSubscribed - This string element specifies when the address was subscribed (in the ACAP date/time format).\nposts - This string element may contain the strings special, moderateAll, prohibited, or the string with the number of messages posted from this address. If the next postings from this address are to be moderated, the element contains an array with one string element that contains the number of postings to be moderated.\nbounces - This optional string element contains the number of bounces received from this address.\nlastBounced - This optional string element specifies the last time when messages to this address bounced were bounced. The data and time are specified in the ACAP format.\nRealName - This optional string element contains the real name of the subscriber.';
+            break;
+        }
+        case 445: {
+            item.detail = '(CLI/API) SETPOSTINGMODE listName FOR subscriberAddress [ UNMODERATED | MODERATEALL | PROHIBITED | SPECIAL | numberOfModerated ]';
+            item.documentation = 'Use this command to set the posting mode for the specified subscriber. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default.\nsubscriberAddress : string\nThis parameter specifies the E-mail address of the list subscriber.\npostingMode : number\nThis optional parameter limits the number of subscriber addresses returned. The command sets the posting mode the specified subscriber. If numberOfModerated (a number) is specified, the posting mode set requires moderation of the first numberOfModerated messages from this subscriber.';
+            break;
+        }
+        case 446: {
+            item.detail = '(CLI/API) PROCESSBOUNCE listName [ FATAL ] FOR subscriberAddress';
+            item.documentation = 'Use this command to perform the same action the List Manager performs when it receives a bounce message for the subscriber address. listName : string \nThis parameter specifies the name of an existing mailing list. It can include the Domain name. If the Domain name is not specified, the user Domain is used by default.\nsubscriberAddress : string\nThis parameter specifies the E-mail address of the list subscriber. Use the FATAL keyword to emulate a "fatal" bounce. Otherwise the command emulates a non-fatal bounce.';
+            break;
+        }
+        case 447: {
+            item.detail = '(CLI/API) LISTDOMAINSKINS [ domainName ]';
+            item.documentation = 'Use this command to list custom Domain Skins. The command produces an output - an array with Skin names. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain.';
+            break;
+        }
+        case 448: {
+            item.detail = '(CLI/API) CREATEDOMAINSKIN [ domainName SKIN ] skinName';
+            item.documentation = 'Use this command to create a custom Domain Skin. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain. If it is specified, it should be followed with the SKIN keyword.\nskinName : string\nThis parameter specifies the name of the new Skin. To create the unnamed Domain Skin, specify an empty string as the skinName parameter value. A named Domain Skin can be created only when the unnamed Domain Skin exists.';
+            break;
+        }
+        case 449: {
+            item.detail = '(CLI/API) RENAMEDOMAINSKIN [ domainName SKIN ] skinName INTO newSkinName';
+            item.documentation = 'Use this command to rename a custom named Domain Skin. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain. If it is specified, it should be followed with the SKIN keyword.\nskinName : string\nThis parameter specifies the name of an existing named Skin.\nnewSkinName : string\nThis parameter specifies the new name for the Skin.';
+            break;
+        }
+        case 450: {
+            item.detail = '(CLI/API) DELETEDOMAINSKIN [ domainName SKIN ] skinName';
+            item.documentation = 'Use this command to delete a custom Domain Skin. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain. If it is specified, it should be followed with the SKIN keyword.\nskinName : string\nThis parameter specifies the name of the Skin to be deleted. To delete the unnamed Domain Skin, specify an empty string as the skinName parameter value. The unnamed Domain Skin can be deleted only when no named Domain Skin exists.';
+            break;
+        }
+        case 451: {
+            item.detail = '(CLI/API) LISTDOMAINSKINFILES [ domainName SKIN ] skinName';
+            item.documentation = 'Use this command to list files in a custom Domain Skin. The command produces an output - a dictionary with Skin file names as keys. The dictionary element values are dictionaries with file attributes. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain. If it is specified, it must be followed with the SKIN keyword.\nskinName : string\nThis parameter specifies the name of an existing Domain Skin.';
+            break;
+        }
+        case 452: {
+            item.detail = '(CLI/API) READDOMAINSKINFILE [ domainName SKIN ] skinName FILE fileName';
+            item.documentation = 'Use this command to read a file from a custom Domain Skin. The command produces an output - an array. The first array element is a datablock with the Skin file content, the second array element is a timestamp with the file modification date. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain. If it is specified, it must be followed with the SKIN keyword.\nskinName : string\nThis parameter specifies the name of an existing Domain Skin.\nfileName : string\nThis parameter specifies the name of an existing file in the specified Domain Skin.';
+            break;
+        }
+        case 453: {
+            item.detail = '(CLI/API) STOREDOMAINSKINFILE [ domainName SKIN ] skinName FILE fileName DATA fileContent STOREDOMAINSKINFILE [ domainName SKIN ] skinName FILE fileName DELETE';
+            item.documentation = 'Use this command to store a file into a custom Domain Skin, or to delete a file from a custom Domain Skin. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain. If it is specified, it must be followed with the SKIN keyword.\nskinName : string\nThis parameter specifies the name of an existing Domain Skin.\nfileName : string\nThis parameter specifies the Skin file name.\nfileContent : datablock\nThis datablock contains file content. This parameter is specified only if the DATA keyword is used. If the DATA keyword is specified and the Skin contains a file with the same name, the old file is deleted. The file with the specified name is removed from the Skin Cache (in the Dynamic Cluster the file is removed from Skin caches on all cluster members).';
+            break;
+        }
+        case 454: {
+            item.detail = '(CLI/API) LISTSERVERSKINS';
+            item.documentation = 'Use this command to list custom Server Skins. The command produces an output - an array with Skin names.';
+            break;
+        }
+        case 455: {
+            item.detail = '(CLI/API) CREATESERVERSKIN skinName';
+            item.documentation = 'Use this command to create a custom Server Skin. skinName : string \nThis parameter specifies the name of the new Skin.';
+            break;
+        }
+        case 456: {
+            item.detail = '(CLI/API) RENAMESERVERSKIN skinName INTO newSkinName';
+            item.documentation = 'Use this command to rename a custom Server Skin. skinName : string \nThis parameter specifies the name of an existing Skin.\nnewSkinName : string\nThis parameter specifies the new name for the Skin.';
+            break;
+        }
+        case 457: {
+            item.detail = '(CLI/API) DELETESERVERSKIN skinName';
+            item.documentation = 'Use this command to delete a custom Server Skin. skinName : string \nThis parameter specifies the name of the Skin to be deleted.';
+            break;
+        }
+        case 458: {
+            item.detail = '(CLI/API) LISTSERVERSKINFILES skinName';
+            item.documentation = 'Use this command to list files in a custom Server Skin. The command produces an output - a dictionary with Skin file names as keys. The dictionary element values are dictionaries with file attributes. skinName : string \nThis parameter specifies the name of an existing Server Skin.';
+            break;
+        }
+        case 459: {
+            item.detail = '(CLI/API) READSERVERSKINFILE skinName FILE fileName';
+            item.documentation = 'Use this command to read a file from a custom Server Skin. The command produces an output - an array. The first array element is a datablock with the Skin file content, the second array element is a timestamp with the file modification date. skinName : string \nThis parameter specifies the name of an existing Server Skin.\nfileName : string\nThis parameter specifies the name of an existing file in the specified Server Skin.';
+            break;
+        }
+        case 460: {
+            item.detail = '(CLI/API) STORESERVERSKINFILE skinName FILE fileName DATA fileContent STORESERVERSKINFILE skinName FILE fileName DELETE';
+            item.documentation = 'Use this command to store a file into a custom Server Skin, or to delete a file from a custom Server Skin. skinName : string \nThis parameter specifies the name of an existing Server Skin.\nfileName : string\nThis parameter specifies the Skin file name.\nfileContent : datablock\nThis datablock contains the file content. This parameter is specified only if the DATA keyword is used. If the DATA keyword is specified and the Skin contains a file with the same name, the old file is deleted. The file with the specified name is removed from the Skin Cache (in the Dynamic Cluster the file is removed from Skin caches on all cluster members).';
+            break;
+        }
+        case 461: {
+            item.detail = '(CLI/API) LISTCLUSTERSKINS CREATECLUSTERSKIN skinName RENAMECLUSTERSKIN skinName INTO newSkinName DELETECLUSTERSKIN skinName';
+            item.documentation = 'These commands are available in the Dynamic Cluster only. Use these commands instead of the [LIST|CREATE|RENAME|DELETE]SERVERSKIN[S] commands to work with the cluster-wide Skins.';
+            break;
+        }
+        case 462: {
+            item.detail = '(CLI/API) LISTCLUSTERSKINFILES skinName READCLUSTERSKINFILE skinName FILE fileName STORECLUSTERSKINFILE skinName FILE fileName DATA fileContent STORECLUSTERSKINFILE skinName FILE fileName DELETE';
+            item.documentation = 'These commands are available in the Dynamic Cluster only. Use these commands instead of the [LIST|READ|STORE]SERVERSKINFILE[S] commands to work with files in the cluster-wide Skins.';
+            break;
+        }
+        case 463: {
+            item.detail = '(CLI/API) LISTSTOCKSKINFILES skinName READSTOCKSKINFILE skinName FILE fileName';
+            item.documentation = 'Use these commands instead of the [LIST|READ]SERVERSKINFILE[S] commands to work with files in the built-in Skins.';
+            break;
+        }
+        case 464: {
+            item.detail = '(CLI/API) CREATEWEBUSERSESSION accountName ADDRESS ip-address [ FOR orig-address ] [ WML | IMode ] [ SKIN skinName ]';
+            item.documentation = 'Use this command to create a WebUser session for the specified Account. The command produces an output - a string that contains the WebUser Session ID. This string can be used to compose a URL that will allow the client browser to "enter" the WebUser Session. That URL can have the following format: http://cgateproserver:port/Session/rrrrrrrrrrrr/Mailboxes.wssp where rrrrrrrrrrrr is the Session ID string returned. accountName : string \nThis parameter specifies the Account name.\nip-address : string or IP address\nThis parameter specifies the IP address and port of the client browser. If the Account has the "Fixed IP" Preference setting enabled, connections to the session will be allowed from this IP address only.\norig-address : string\nThis parameter specifies the original IP address of the client browser, if the client connects via a proxy. The ip-address parameter specifies the proxy IP address. If the Account has the "Fixed IP" Preference setting enabled, connections to the session will be allowed from the proxy IP address only and only from this original IP address (passed by the proxy in the X-FORWARDED-FOR HTTP header field).\nskinName : string\nThis optional parameter specifies the Skin to use for the newly created session. The optional WML or IMode keywords can be used to emulate login via a WML or I-Mode browser. The authenticated user should have the All Domains Server access right or the CanCreateWebUserSessions access right to create WebUser Sessions.';
+            break;
+        }
+        case 465: {
+            item.detail = '(CLI/API) CREATEXIMSSSESSION accountName ADDRESS ip-address [ FOR orig-address ]';
+            item.documentation = 'Use this command to create a XIMSS session for the specified Account. The command produces an output - a string that contains the XIMSS Session ID. This string can be used to compose a URL that will allow the client browser to work with the XIMSS Session using HTTP Binding. accountName : string \nThis parameter specifies the Account name.\nip-address : string \norig-address : string\nThese parameters have the same meaning as for the CREATEWEBUSERSESSION command. The authenticated user should have the All Domains Server access right or the CanCreateWebUserSessions Domain Administration access right to create XIMSS Sessions.';
+            break;
+        }
+        case 466: {
+            item.detail = '(CLI/API) FINDACCOUNTSESSION accountName [ ADDRESS ip-address [ FOR proxied-address ] ] [ PROTOCOL protocol ] [ TRANSPORT transport ] [ CLIENT client ]';
+            item.documentation = 'Use this command to find an existing session for the specified Account. The command produces an output - a string that contains the Session ID. accountName : string \nThis parameter specifies the Account name.\nip-address : string or IP address\nThis optional parameter specifies the IP address of the client browser. If it is specified, the command will find only those sessions that have the "Fixed IP" Preference disabled or have the same login IP address as the specified one.\nproxied-address : string\nThis optional parameter specifies the IP address of the client browser, if this browser is located behind an HTTP proxy. The ip-address then specifies the IP address of that proxy.\nprotocol : string\nThis optional parameter specifies the Session protocol (WebUser, XIMSS, XMPP, etc.) If specified, only the sessions created with the specified protocol are searched. \ntransport : string\nThis optional parameter specifies the Session transport (HTTP, XIMSS, XMPP, etc.) If specified, only the sessions created with the specified transport are searched. \nclient : string\nThis optional parameter specifies the Session client. If specified, only the sessions created with the specified client (if the client has informed the session about its name) are searched. The authenticated user should have the All Domains Server access right or the CanCreateWebUserSessions Domain Administration access right to use this command.';
+            break;
+        }
+        case 467: {
+            item.detail = '(CLI/API) LISTACCOUNTSESSIONS accountName [ ADDRESS ip-address [ FOR proxied-address ] ] [ PROTOCOL protocol ] [ TRANSPORT transport ] [ CLIENT client ]';
+            item.documentation = 'Use this command to retrieve all existing sessions for the specified Account. The command produces an output - an array of strings, where each string is the Session ID. \nCommand parameters are the same as the FINDACCOUNTSESSION command parameters. \nThe authenticated user should have the All Domains Server access right or the CanCreateWebUserSessions Domain Administration access right to use this command.';
+            break;
+        }
+        case 468: {
+            item.detail = '(CLI/API) GETSESSION sessionID [ DOMAIN domainName ]';
+            item.documentation = 'Use this command to retrieve Session data. The command produces an output - a dictionary with the session dataset. sessionID : string \nThis parameter specifies the Session ID.\ndomainName : string\nThis optional parameter specifies the name of Domain the session Account belongs to. The authenticated user should have the All Domains Server access right to retrieve Session data if the domainName parameter is not specified. If the domainName is specified, the authenticated user should have the CanCreateWebUserSessions Domain Administration access right for the specified Domain. This operation resets the session inactivity timer.';
+            break;
+        }
+        case 469: {
+            item.detail = '(CLI/API) KILLSESSION sessionID [ DOMAIN domainName ]';
+            item.documentation = 'Use this command to terminate a Session. sessionID : string \nThis parameter specifies the Session ID.\ndomainName : string\nThis optional parameter specifies the name of Domain the session Account belongs to. The authenticated user should have the All DomainsServer access right to terminate a Session if the domainName parameter is not specified. If the domainName is specified, the authenticated user should have the CanCreateWebUserSessions Domain Administration access right for the specified Domain.';
+            break;
+        }
+        case 470: {
+            item.detail = '(CLI/API) CREATEDOMAINPBX domainName [ FILE language ]';
+            item.documentation = 'Use this command to create the Domain Real-Time Application Environment or to create its national subset. domainName : string \nThis parameter specifies the Domain name.\nlanguage : string\nThis optional parameter specifies a national subset name.';
+            break;
+        }
+        case 471: {
+            item.detail = '(CLI/API) DELETEDOMAINPBX domainName FILE language';
+            item.documentation = 'Use this command to remove a national subset from the Domain Real-Time Application Environment. domainName : string \nThis parameter specifies the Domain name.\nlanguage : string\nThis parameter specifies a national subset name.';
+            break;
+        }
+        case 472: {
+            item.detail = '(CLI/API) LISTDOMAINPBXFILES domainName [ FILE language ]';
+            item.documentation = 'Use this command to list files in the Domain Real-Time Application Environment. The command produces an output - a dictionary with file names used as keys. The dictionary element values are dictionaries with file attributes. domainName : string \nThis optional parameter specifies the Domain name. If the Domain name is not specified, the command applies to the administrator Domain. \nlanguage : string\nThis optional parameter specifies a national subset name.';
+            break;
+        }
+        case 473: {
+            item.detail = '(CLI/API) READDOMAINPBXFILE domainName FILE fileName';
+            item.documentation = 'Use this command to read a file from the Domain Real-Time Application Environment. The command produces an output - a datablock with the file contents. domainName : string \nThis parameter specifies the Domain name.\nfileName : string\nThis parameter specifies the file name. To retrieve a file from a national subset, specify the name as language/fileName.';
+            break;
+        }
+        case 474: {
+            item.detail = '(CLI/API) STOREDOMAINPBXFILE domainName FILE fileName DATA fileContent STOREDOMAINPBXFILE domainName FILE fileName DELETE';
+            item.documentation = 'Use this command to store a file into the Domain Real-Time Application Environment, or to delete a file from the Domain Real-Time Application Environment. domainName : string \nThis parameter specifies the Domain name.\nfileName : string\nThis parameter specifies the file name. To store a file into a national subset, specify the name as language/fileName.\nfileContent : datablock\nThis parameter is specified only if the DATA keyword is used. It should contain the file contents. If the DATA keyword is specified and the environment contains a file with the specified name, the old file is deleted. The file with the specified name is removed from the Environment cache (in the Dynamic Cluster the file is removed from all cluster members caches).';
+            break;
+        }
+        case 475: {
+            item.detail = '(CLI/API) CREATESERVERPBX language';
+            item.documentation = 'Use this command to create the Server-wide Real-Time Application Environment or to create its national subset. language : string \nThis parameter specifies a national subset name.';
+            break;
+        }
+        case 476: {
+            item.detail = '(CLI/API) DELETESERVERPBX language';
+            item.documentation = 'Use this command to remove a national subset of the Server-wide Real-Time Application Environment. language : string \nThis parameter specifies a national subset name.';
+            break;
+        }
+        case 477: {
+            item.detail = '(CLI/API) LISTSERVERPBXFILES [ language ]';
+            item.documentation = 'Use this command to list files in the Server-wide Real-Time Application Environment. The command produces an output - a dictionary with file names used as keys. The dictionary element values are dictionaries with file attributes. language : string \nThis optional parameter specifies a national subset name.';
+            break;
+        }
+        case 478: {
+            item.detail = '(CLI/API) READSERVERPBXFILE fileName';
+            item.documentation = 'Use this command to read a file from the Server-wide Real-Time Application Environment. The command produces an output - a datablock with the file contents. fileName : string \nThis parameter specifies the file name. To retrieve a file from a national subset, specify the name as language/fileName.';
+            break;
+        }
+        case 479: {
+            item.detail = '(CLI/API) STORESERVERPBXFILE fileName DATA fileContent STORESERVERPBXFILE fileName DELETE';
+            item.documentation = 'Use this command to store a file into the Server-wide Real-Time Application Environment, or to delete a file from the Server-wide Real-Time Application Environment. fileName : string \nThis parameter specifies the file name. To store a file into a national subset, specify the name as language/fileName.\nfileContent : datablock\nThis parameter is specified only if the DATA keyword is used. It should contain the file contents. If the DATA keyword is specified and the environment contains a file with the specified name, the old file is deleted. The file with the specified name is removed from the Environment cache (in the Dynamic Cluster the file is removed from all cluster members caches).';
+            break;
+        }
+        case 480: {
+            item.detail = '(CLI/API) CREATECLUSTERPBX language DELETECLUSTERPBX language LISTCLUSTERPBXFILES [ language ] READCLUSTERPBXFILE fileName STORECLUSTERPBXFILE fileName DATA fileContent STORECLUSTERPBXFILE fileName DELETE';
+            item.documentation = 'These commands are available in the Dynamic Cluster only. Use these commands instead of the [LIST|READ|STORE]SERVERPBXFILE[S] commands to work with files in the cluster-wide Real-Time Application Environment.';
+            break;
+        }
+        case 481: {
+            item.detail = '(CLI/API) LISTSTOCKPBXFILES [ language ] READSTOCKPBXFILE fileName';
+            item.documentation = 'Use these commands instead of the [LIST|READ]SERVERPBXFILE[S] commands to work with files in the stock (built-in) Real-Time Application Environment.';
+            break;
+        }
+        case 482: {
+            item.detail = '(CLI/API) STARTPBXTASK accountName PROGRAM programName [ ENTRY entryName ] [ PARAM parameter ]';
+            item.documentation = 'Use this command to start a new PBX Task. The command produces an output - a string with the Task ID. accountName : string \nThis parameter specifies the name of an Account. The Task is started on this Account behalf. The name can include the Domain name. If the Domain name is not specified, the current user Domain is used by default. \nprogramName : string\nThe name of the program (the .sppr file) to start.\nentryName : string\nThis optional parameter specifies the program entry point. If this parameter is not specified, the main entry point is used.\nparameter : object\nThis optional parameter specifies the program parameter. The program code can retrieve it using the following code: Vars().startParameter';
+            break;
+        }
+        case 483: {
+            item.detail = '(CLI/API) SENDTASKEVENT taskID EVENT eventName [ PARAM parameter ]';
+            item.documentation = 'Use this command to send an Event to an existing PBX Task. taskID : string \nThis parameter specifies the Task ID.\neventName : string\nThe name of the Event to send.\nparameter : object\nThis optional parameter specifies the Event parameter.';
+            break;
+        }
+        case 484: {
+            item.detail = '(CLI/API) KILLNODE taskID';
+            item.documentation = 'Use this command to kill an existing PBX Task. taskID : string \nThis parameter specifies the Task ID.';
+            break;
+        }
+        case 485: {
+            item.detail = '(CLI/API) READNODESTATUS taskID';
+            item.documentation = 'Use this command to read the current application status of an existing PBX Task. The command produces an output - the application status object. taskID : string \nThis parameter specifies the Task ID.';
+            break;
+        }
+        case 486: {
+            item.detail = '(CLI/API) REMOVEACCOUNTSUBSET accountName SUBSET subsetName';
+            item.documentation = 'Use this command to remove an Account "dataset" (such as the RepliedAddresses dataset). accountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account. \nsubsetName : string\nThis parameter specifies the name of an existing data subset in the specified Account.';
+            break;
+        }
+        case 487: {
+            item.detail = '(CLI/API) DATASET accountName parameters';
+            item.documentation = 'Use this command to manage Account "datasets". The command produces an output - a dictionary with the operation results. accountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account. \nparameters : dictionary\nThis dictionary should contain: subsetName \na string element specifying the target dataset or the dataset subset\nwhat - a string element specifying the operation to apply. Other dictionary elements are operation-specific. The following is the list of supported operations (the whatvalues) and the additional parameters dictionary elements used for each operation: \nlistSubsets - this operation lists all subsets of the specified dataset. To list all top-level datasets in the Account, specify the an empty string as the subsetName value. The resulting dictionary contains the found subset names as keys and empty strings as values. \ncreateSet - this operation creates the specified dataset. \nremoveSet - this operation removes the specified dataset. \nlistEntries - this operation lists subset entries. The resulting dictionary contains the found entry names as keys and the entry attribute name-value dictionaries as values. attribute , data - optional string elements; they specify the name and the value of an entry attribute. If specified, the result includes only the entries that have the specified attribute with the specified value. \nUse the "entry" attribute name to filter by entry names. \nmode - an optional string element; if it is absent or its value is "eq" , then the specified attribute should have the specified value; \nif its value is "beg" , then the beginning of the specified attribute value should match the specified value. \nif its value is "end" , then the tail of the specified attribute value should match the specified value. \nif its value is "incl" , then the specified attribute value should include the specified value. \nsetEntry - this operation creates a new entry or updates an existing entry. data - a dictionary with the attribute name-value pairs; they are used to update an existing entry or to create a new one. \nentryName - the entry name string; if the entry with the specified name does not exist, it is created. If this element is absent, a unique entry name is generated.\nifExists - if this element exists, then the new entry cannot be created, and only an existing entry can be updated; if this element is absent and the specified dataset is not found, the dataset is created. \ndeleteEntry - this operation removes the specified entry from the specified dataset. entryName - the entry name string \naddRandomEntry - this operation adds a new entry to the specified dataset or the dataset subset. A unique name is generated and assigned to this entry. If the operation succeeds, the resulting dictionary has the string entryName element with the entry name generated. data - a dictionary with the attribute name-value pairs. It must contain the addressbook.Email attribute.\nentryLimit - an optional numeric value; if specified and positive, then the operation checks the the current number of subset entries does not exceed this limit. If the dataset already contains an entry with the same addressbook.Email attribute value, the dataset is not modified. \nfindAddress - this operation finds an entry with the specified addressbook.Email attribute value. The operation result is a dictionary. If an entry is found, its name is returned as the dictionary element with an empty-string name. address - a string with an E-mail address to look for';
+            break;
+        }
+        case 488: {
+            item.detail = '(CLI/API) ROSTER accountName parameters';
+            item.documentation = 'Use this command to manage Account Roster. The command produces an output - a dictionary with the operation results. accountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account. \nparameters : dictionary\nThis dictionary should contain the what string element, specifying the operation to apply: List, Update, remove, Presence, probe. Other dictionary elements are operation-specific.';
+            break;
+        }
+        case 489: {
+            item.detail = '(CLI/API) BALANCE accountName parameters';
+            item.documentation = 'Use this command to manage Account Billing Balances. The command produces an output - a dictionary with the operation results. \naccountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account. \nparameters : dictionary\nThis dictionary should contain the op string element, specifying the operation to apply: list, reserve, release, charge, credit, read, readAll, history, remove. Other dictionary elements are operation-specific.';
+            break;
+        }
+        case 490: {
+            item.detail = '(CLI/API) LISTMODULES';
+            item.documentation = 'Use this command to list all Server modules. The command produces an output - an array with all module names.';
+            break;
+        }
+        case 491: {
+            item.detail = '(CLI/API) GETMODULE moduleName';
+            item.documentation = 'Use this command to get the module settings. The command produces an output - a dictionary with the module settings. moduleName : string \nThis parameter specifies the name of a CommuniGate Pro Server module.';
+            break;
+        }
+        case 492: {
+            item.detail = '(CLI/API) SETMODULE moduleName newSettings';
+            item.documentation = 'Use this command to set the module settings. moduleName : string \nThis parameter specifies the name of a CommuniGate Pro Server module.\nnewSettings : dictionary\nThis dictionary is used to set the module settings dictionary.';
+            break;
+        }
+        case 493: {
+            item.detail = '(CLI/API) UPDATEMODULE moduleName newSettings';
+            item.documentation = 'Use this command to update the module settings. moduleName : string \nThis parameter specifies the name of a CommuniGate Pro Server module.\nnewSettings : dictionary\nThis dictionary is used to update the module settings dictionary. It does not have to contain all settings data, the omitted settings will be left unmodified.';
+            break;
+        }
+        case 494: {
+            item.detail = '(CLI/API) GETQUEUESETTINGS';
+            item.documentation = 'Use this command to get the Queue settings. The command produces an output - a dictionary with the Queue settings.';
+            break;
+        }
+        case 495: {
+            item.detail = '(CLI/API) SETQUEUESETTINGS newSettings';
+            item.documentation = 'Use this command to set the Queue settings. newSettings : dictionary \nThis dictionary is used to set the Queue settings dictionary.';
+            break;
+        }
+        case 496: {
+            item.detail = '(CLI/API) GETSIGNALSETTINGS';
+            item.documentation = 'Use this command to get the Signal component settings. The command produces an output - a dictionary with the component settings.';
+            break;
+        }
+        case 497: {
+            item.detail = '(CLI/API) SETSIGNALSETTINGS newSettings';
+            item.documentation = 'Use this command to set the Signal component settings. newSettings : dictionary \nThis dictionary is used to set the component settings dictionary.';
+            break;
+        }
+        case 498: {
+            item.detail = '(CLI/API) GETMEDIASERVERSETTINGS';
+            item.documentation = 'Use this command to read the Media Server component settings. The command produces an output - a dictionary with the component settings.';
+            break;
+        }
+        case 499: {
+            item.detail = '(CLI/API) SETMEDIASERVERSETTINGS newSettings';
+            item.documentation = 'Use this command to set the Media Server component settings. newSettings : dictionary \nThis dictionary is used to set the component settings dictionary.';
+            break;
+        }
+        case 500: {
+            item.detail = '(CLI/API) GETSESSIONSETTINGS';
+            item.documentation = 'Use this command to get the user Sessions settings. The command produces an output - a dictionary with the Sessions settings.';
+            break;
+        }
+        case 501: {
+            item.detail = '(CLI/API) SETSESSIONSETTINGS newSettings';
+            item.documentation = 'Use this command to set the user Sessions settings. newSettings : dictionary \nThis dictionary is used to set the Sessions settings dictionary.';
+            break;
+        }
+        case 502: {
+            item.detail = '(CLI/API) GETCLUSTERSETTINGS';
+            item.documentation = 'Use this command to get the Cluster settings. The command produces an output - a dictionary with the Cluster settings.';
+            break;
+        }
+        case 503: {
+            item.detail = '(CLI/API) SETCLUSTERSETTINGS newSettings';
+            item.documentation = 'Use this command to set the Cluster settings. newSettings : dictionary \nThis dictionary is used to set the Cluster settings dictionary.';
+            break;
+        }
+        case 504: {
+            item.detail = '(CLI/API) GETLOGSETTINGS';
+            item.documentation = 'Use this command to get the Main Log settings. The command produces an output - a dictionary with the Main Log settings.';
+            break;
+        }
+        case 505: {
+            item.detail = '(CLI/API) UPDATELOGSETTINGS newSettings';
+            item.documentation = 'Use this command to set the Main Log settings. newSettings : dictionary \nThis dictionary is used to update the Main Log settings dictionary.';
+            break;
+        }
+        case 506: {
+            item.detail = '(CLI/API) GETNETWORK';
+            item.documentation = 'Use this command to retrieve the Network settings. The command produces an output - a dictionary with the server Network settings.';
+            break;
+        }
+        case 507: {
+            item.detail = '(CLI/API) SETNETWORK newSettings';
+            item.documentation = 'Use this command to set the server Network Settings. newSettings : dictionary \nNew server Network settings.';
+            break;
+        }
+        case 508: {
+            item.detail = '(CLI/API) GETDNRSETTINGS';
+            item.documentation = 'Use this command to retrieve the DNR (Domain Name Resolver) settings. The command produces an output - a dictionary with the DNR settings.';
+            break;
+        }
+        case 509: {
+            item.detail = '(CLI/API) SETDNRSETTINGS newSettings';
+            item.documentation = 'Use this command to set the DNR (Domain Name Resolver) settings. newSettings : dictionary \nNew DNR settings.';
+            break;
+        }
+        case 510: {
+            item.detail = '(CLI/API) GETBANNED';
+            item.documentation = 'Use this command to retrieve the Banned Message Lines settings. The command produces an output - a dictionary with the server Banned Message Lines settings.';
+            break;
+        }
+        case 511: {
+            item.detail = '(CLI/API) SETBANNED newSettings';
+            item.documentation = 'Use this command to set the server Banned Message Line Settings. newSettings : dictionary \nNew server Banned settings.';
+            break;
+        }
+        case 512: {
+            item.detail = '(CLI/API) GETCLUSTERNETWORK SETCLUSTERNETWORK newSettings';
+            item.documentation = 'Use these commands to retrieve and update the Cluster-wide Network settings.';
+            break;
+        }
+        case 513: {
+            item.detail = '(CLI/API) GETCLUSTERBANNED SETCLUSTERBANNED newSettings';
+            item.documentation = 'Use these commands to retrieve and update the Cluster-wide Banned Message Lines settings.';
+            break;
+        }
+        case 514: {
+            item.detail = '(CLI/API) GETSERVERMAILRULES';
+            item.documentation = 'Use this command to read the Server-Wide Automated Mail Processing Rules. The command produces an output - an array of the Server Queue Rules.';
+            break;
+        }
+        case 515: {
+            item.detail = '(CLI/API) SETSERVERMAILRULES newRules';
+            item.documentation = 'Use this command to set the Server-Wide Automated Mail Processing Rules. newRules : array\nAn array of new Server Queue Rules.';
+            break;
+        }
+        case 516: {
+            item.detail = '(CLI/API) GETSERVERSIGNALRULES';
+            item.documentation = 'Use this command to read the Server-Wide Automated Signal Processing Rules. The command produces an output - an array of the Server Signal Rules.';
+            break;
+        }
+        case 517: {
+            item.detail = '(CLI/API) SETSERVERSIGNALRULES newRules';
+            item.documentation = 'Use this command to set the Server-Wide Automated Signal Processing Rules. newRules : array\nAn array of new Server Signal Rules.';
+            break;
+        }
+        case 518: {
+            item.detail = '(CLI/API) GETCLUSTERMAILRULES SETCLUSTERMAILRULES newRules GETCLUSTERSIGNALRULES SETCLUSTERSIGNALRULES newRules';
+            item.documentation = 'Use these commands to retrieve and update the Cluster-wide Rules.';
+            break;
+        }
+        case 519: {
+            item.detail = '(CLI/API) GETROUTERTABLE';
+            item.documentation = 'Use this command to read the Router Table. The command produces an output - a (multi-line) string with the Router Table text.';
+            break;
+        }
+        case 520: {
+            item.detail = '(CLI/API) SETROUTERTABLE newTable';
+            item.documentation = 'Use this command to set the Router Table. newTable : string\nA (multi-line) string containing the text of the new Router Table Note: multiple lines should be separated with the \e symbols.';
+            break;
+        }
+        case 521: {
+            item.detail = '(CLI/API) GETROUTERSETTINGS';
+            item.documentation = 'Use this command to read the Router settings. The command produces an output - a dictionary with the Router settings.';
+            break;
+        }
+        case 522: {
+            item.detail = '(CLI/API) SETROUTERSETTINGS newSettings';
+            item.documentation = 'Use this command to set the Router settings. newSettings : dictionary\nA dictionary containing new Router settings.';
+            break;
+        }
+        case 523: {
+            item.detail = '(CLI/API) GETCLUSTERROUTERTABLE SETCLUSTERROUTERTABLE newTable GETCLUSTERROUTERSETTINGS SETCLUSTERROUTERSETTINGS newSettings';
+            item.documentation = 'Use these commands to deal with the Cluster-Wide Router Table and settings.';
+            break;
+        }
+        case 524: {
+            item.detail = '(CLI/API) GETSERVERSETTINGS';
+            item.documentation = 'Use this command to read the Server "other" settings. The command produces an output - a dictionary with the Server settings.';
+            break;
+        }
+        case 525: {
+            item.detail = '(CLI/API) UPDATESERVERSETTINGS newSettings';
+            item.documentation = 'Use this command to update the "other" Server settings. newSettings : dictionary \nA dictionary containing new Server settings.';
+            break;
+        }
+        case 526: {
+            item.detail = '(CLI/API) REFRESHOSDATA';
+            item.documentation = 'Use this command to make the Server re-read the IP data from the server OS: the set of the local IP addresses, and the set of the DNS addresses.';
+            break;
+        }
+        case 527: {
+            item.detail = '(CLI/API) GETLANIPS';
+            item.documentation = 'Use this command to retrieve the set of LAN IP Addresses. The command produces an output - a (multi-line) string with LAN IP addresses and address ranges.';
+            break;
+        }
+        case 528: {
+            item.detail = '(CLI/API) SETLANIPS newAddresses';
+            item.documentation = 'Use this command to update the set of LAN IP Addresses. newAddresses : string \nThis (multi-line) string parameter contains the set of addresses and address ranges forming the new set of LAN IP Addresses.';
+            break;
+        }
+        case 529: {
+            item.detail = '(CLI/API) GETCLUSTERLANIPS';
+            item.documentation = 'Use this command to retrieve the set of Cluster-wide LAN IP Addresses. The command produces an output - a (multi-line) string with Cluster-wide LAN IP addresses and address ranges.';
+            break;
+        }
+        case 530: {
+            item.detail = '(CLI/API) SETCLUSTERLANIPS newAddresses';
+            item.documentation = 'Use this command to update the set of Cluster-wide LAN IP Addresses. newAddresses : string \nThis (multi-line) string parameter contains the set of addresses and address ranges forming the new set of Cluster-wide LAN IP Addresses.';
+            break;
+        }
+        case 531: {
+            item.detail = '(CLI/API) GETCLIENTIPS SETCLIENTIPS newAddresses GETCLUSTERCLIENTIPS SETCLUSTERCLIENTIPS newAddresses';
+            item.documentation = 'Use these commands to retrieve and set Server-wide and Cluster-wide Client IP Addresses.';
+            break;
+        }
+        case 532: {
+            item.detail = '(CLI/API) GETBLACKLISTEDIPS SETBLACKLISTEDIPS newAddresses GETCLUSTERBLACKLISTEDIPS SETCLUSTERBLACKLISTEDIPS newAddresses';
+            item.documentation = 'Use these commands to retrieve and set Server-wide and Cluster-wide Blacklisted IP Addresses.';
+            break;
+        }
+        case 533: {
+            item.detail = '(CLI/API) GETWHITEHOLEIPS SETWHITEHOLEIPS newAddresses GETCLUSTERWHITEHOLEIPS SETCLUSTERWHITEHOLEIPS newAddresses';
+            item.documentation = 'Use these commands to retrieve and set Server-wide and Cluster-wide WhiteHole IP Addresses.';
+            break;
+        }
+        case 534: {
+            item.detail = '(CLI/API) GETNATEDIPS SETNATEDIPS newAddresses GETCLUSTERNATEDIPS SETCLUSTERNATEDIPS newAddresses';
+            item.documentation = 'Use these commands to retrieve and set Server-wide and Cluster-wide NATed IP Addresses.';
+            break;
+        }
+        case 535: {
+            item.detail = '(CLI/API) GETNATSITEIPS SETNATSITEIPS newAddresses GETCLUSTERNATSITEIPS SETCLUSTERNATSITEIPS newAddresses';
+            item.documentation = 'Use these commands to retrieve and set Server-wide and Cluster-wide NAT Site IP Addresses.';
+            break;
+        }
+        case 536: {
+            item.detail = '(CLI/API) GETDEBUGIPS SETDEBUGIPS newAddresses GETCLUSTERDEBUGIPS SETCLUSTERDEBUGIPS newAddresses';
+            item.documentation = 'Use these commands to retrieve and set Server-wide and Cluster-wide Debug IP Addresses.';
+            break;
+        }
+        case 537: {
+            item.detail = '(CLI/API) GETDENIEDIPS SETDENIEDIPS newAddresses GETCLUSTERDENIEDIPS SETCLUSTERDENIEDIPS newAddresses';
+            item.documentation = 'Use these commands to retrieve and set Server-wide and Cluster-wide Denied IP Addresses.';
+            break;
+        }
+        case 538: {
+            item.detail = '(CLI/API) ROUTE address [ mail | access | signal ]';
+            item.documentation = 'Use this command to get the routing for the specified address. address : string \nThis parameter specifies the E-mail address to be processed with the CommuniGate Pro Router. \nmail or access or signal - This optional flag specifies the Routing type. The default mode is access. This command produces an output - an array of three strings: \nmodule - the name of the CommuniGate Pro module the address is routed to, or SYSTEMif the address is routed to a built-in destination (like NULL). \nhost - the object/queue handled by the specified module: an Internet domain name for the SMTP module, a local Account name for the Local Delivery module, etc. \naddress - the address inside the queue (E-mail address for SMTP, Real-To: address for Local Delivery, etc.)';
+            break;
+        }
+        case 539: {
+            item.detail = '(CLI/API) GETIPSTATE ip-address [ TEMP ]';
+            item.documentation = 'Use this command to get the type assigned to the specified address. The command produces an output - a string with the IP address type. \nIf the TEMP keyword is specified, the temporary Client IP Addresses set is checked. ip-address : string or IP address \nThis parameter specifies the IP Address to check.';
+            break;
+        }
+        case 540: {
+            item.detail = '(CLI/API) GETSERVERINTERCEPT';
+            item.documentation = 'Use this command to read the Lawful Intercept settings. The command produces an output - a dictionary with the Intercept settings.';
+            break;
+        }
+        case 541: {
+            item.detail = '(CLI/API) SETSERVERINTERCEPT newSettings';
+            item.documentation = 'Use this command to set the Lawful Intercept settings. newSettings : dictionary \nA dictionary containing new Intercept settings.';
+            break;
+        }
+        case 542: {
+            item.detail = '(CLI/API) GETCLUSTERINTERCEPT SETCLUSTERINTERCEPT newSettings';
+            item.documentation = 'These commands are the same as the GETSERVERINTERCEPT and SETSERVERINTERCEPT commands, but they deal with the Cluster-Wide Lawful Intercept settings.';
+            break;
+        }
+        case 543: {
+            item.detail = '(CLI/API) GETSTATELEMENT ObjectID';
+            item.documentation = 'Use this command to retrieve the current value of a Server statistics (SNMP) element. ObjectID : string \nThe object ID of the Server statistics element. This command produces an output - a number, string, or other object with the Server statistics element value.';
+            break;
+        }
+        case 544: {
+            item.detail = '(CLI/API) SETSTATELEMENT ObjectID [ INC | SET ] setValue';
+            item.documentation = 'Use this command to update the current value of a Server statistics (SNMP) element. Only the "Custom" elements can be updated. ObjectID : string \nThe object ID of the Server statistics element. \nsetValue : numeric string\nif the INC keyword is used, this value is added to the Element value, if the SET keyword is used, this value is assigned to the Element.';
+            break;
+        }
+        case 545: {
+            item.detail = '(CLI/API) GETNEXTSTATNAME ObjectID';
+            item.documentation = 'Use this command to enumerate available Server statistics (SNMP) elements. ObjectID : string \nAn empty string or the object ID of the already found Server statistics element. This command produces an output - a string with the ObjectID of the next statistics element. \nIf the ObjectID parameter is an empty string, the ObjectID of the first available Server statistics element is returned. \nIf a statistics element for the specified ObjectID is not found, or if the found element is the last available one, the command returns an error.';
+            break;
+        }
+        case 546: {
+            item.detail = '(CLI/API) GETDIALOGINFO DialogID';
+            item.documentation = 'Use this command to retrieve the information about a Signal Dialog object. DialogID : number \nThe Dialog ID. This command produces an output - a dictionary with the Dialog status data.';
+            break;
+        }
+        case 547: {
+            item.detail = '(CLI/API) SHUTDOWN';
+            item.documentation = 'Use this command to stop the CommuniGate Pro Server.';
+            break;
+        }
+        case 548: {
+            item.detail = '(CLI/API) GETACCOUNTSTAT accountName [ KEY keyName ]';
+            item.documentation = 'Use this command to retrieve statistics data about the specified Account. accountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account. \nkeyName : string\nThis optional parameter specifies the name of the statistical entry to retrieve. This command produces an output - a number or a timeStamp with the specified statistical information, or (if the KEY keyword and the keyName parameter are not specified) a dictionary with all available statistical data. If the statistical data for the specified key does not exist, an empty string is returned. To use this command, the user should have the Domain Administration right for the target Account Domain. All users can retrieve the Account statistics data for their own accounts.';
+            break;
+        }
+        case 549: {
+            item.detail = '(CLI/API) RESETACCOUNTSTAT accountName [ KEY keyName ]';
+            item.documentation = 'Use this command to reset statistics data about the specified Account. accountName : string \nThis parameter specifies the name of an existing Account. The asterisk (*) symbol can be used to specify the current authenticated Account. \nkeyName : string\nThis optional parameter specifies the name of the statistical entry to reset. If the KEY keyword and the keyName parameter are not specified, all Account statistical entries are reset. To use this command, the user should have the "Basic Settings" Domain Administration right for the target Account Domain. \nThe following Account statistics data keys are implemented: \nStatReset - The date & time when the last parameterless RESETACCOUNTSTAT command was sent to this Account \nMessagesReceived - The total number of messages delivered to the Account \nBytesReceived - The total size of all messages delivered to the Account \nMessagesSent - The total number of messages sent on the Account behalf \nBytesSent - The total size of all messages sent on the Account behalf \nCallsReceived - The total number of calls received for the Account \nCallsSent - The total number of calls placed on the Account behalf \nLogins - The total number of successful Account authentications';
+            break;
+        }
+        case 550: {
+            item.detail = '(CLI/API) GETDOMAINSTAT domainName [ KEY keyName ]';
+            item.documentation = 'Use this command to retrieve statistics data about the specified Domain. domainName : string \nThis parameter specifies the name of an existing Domain. The asterisk (*) symbol can be used to specify the Domain of the current authenticated Account. \nkeyName : string\nThis optional parameter specifies the name of the statistical entry to retrieve. This command produces an output - a string with the specified statistical information, or (if the KEYkeyword and the keyName parameter are not specified) a dictionary with all available statistical data. To use this command, the user should have the Domain Administration right for the target Domain.';
+            break;
+        }
+        case 551: {
+            item.detail = '(CLI/API) RESETDOMAINSTAT domainName [ KEY keyName ]';
+            item.documentation = 'Use this command to reset statistics data about the specified Domain. domainName : string \nThis parameter specifies the name of an existing Domain. The asterisk (*) symbol can be used to specify the Domain of the current authenticated Account. \nkeyName : string\nThis optional parameter specifies the name of the statistical entry to reset. If the KEY keyword and the keyName parameter are not specified, all Domain statistical entries are reset. To use this command, the user should have the "Basic Settings" Domain Administration right for the target Domain. \nThe following Domain statistics data keys are implemented: \nStatReset - The date and time when the last parameterless RESETDOMAINSTAT command was sent to this Domains \nMessagesReceived - The total number of messages delivered to the Domain Accounts \nBytesReceived - The total size of all messages delivered to the Domain Accounts \nMessagesSent - The total number of messages sent on the Domain Accounts behalf \nBytesSent - The total size of all messages sent on the Domain Accounts behalf \nCallsReceived - The total number of calls received by the Domain Accounts \nCallsSent - The total number of calls placed on the Domain Accounts behalf';
+            break;
+        }
+        case 552: {
+            item.detail = '(CLI/API) LISTDIRECTORYUNITS [ SHARED ]';
+            item.documentation = 'Use this command to retrieve the list of all Directory units created. If the SHARED keyword is used, the cluster-wide Units are listed. \nThis command produces an output - a dictionary, where the keys are Directory Unit mount points, and the values are Directory Unit names.';
+            break;
+        }
+        case 553: {
+            item.detail = '(CLI/API) CREATEDIRECTORYUNIT unitName [ SHARED ] [ REMOTE ] mountPoint';
+            item.documentation = 'Use this command to create a new Directory Unit. unitName : string \nThis parameter specifies the new Unit name. \nmountPoint : string\nThis parameter specifies the new Unit mount point (mount DN). If the SHARED keyword is used, a cluster-wide Directory Unit is created. \nIf the REMOTE keyword is used, a Remote (LDAP-based) Directory Unit is created, otherwise a Local (File-based) Directory Unit is created.';
+            break;
+        }
+        case 554: {
+            item.detail = '(CLI/API) RELOCATEDIRECTORYUNIT unitName [ SHARED ] newMountPoint';
+            item.documentation = 'Use this command to re-mount an existing Directory Unit on a different mount point. unitName : string \nThis parameter specifies the Directory Unit name. If the SHARED keyword is used, this is a cluster-wide Directory Unit name. \nmountPoint : string\nThis parameter specifies the new mount point (mount DN).';
+            break;
+        }
+        case 555: {
+            item.detail = '(CLI/API) DELETEDIRECTORYUNIT unitName [ SHARED ]';
+            item.documentation = 'Use this command to remove an existing Directory Unit. unitName : string \nThis parameter specifies the Directory Unit name. If the SHARED keyword is used, this is a cluster-wide Directory Unit name.';
+            break;
+        }
+        case 556: {
+            item.detail = '(CLI/API) GETDIRECTORYUNIT unitName [ SHARED ]';
+            item.documentation = 'Use this command to retrieve the Directory Unit settings. unitName : string \nThis parameter specifies the Directory Unit name. If the SHARED keyword is used, this is a cluster-wide Directory Unit name. This command produces an output - a dictionary with the Directory Unit settings.';
+            break;
+        }
+        case 557: {
+            item.detail = '(CLI/API) SETDIRECTORYUNIT unitName [ SHARED ] newSettings';
+            item.documentation = 'Use this command to change the Directory Unit settings. unitName : string \nThis parameter specifies the Directory Unit name. If the SHARED keyword is used, this is a cluster-wide Directory Unit name.\nnewSettings : dictionary\nThis parameter specifies the new Directory Unit settings.';
+            break;
+        }
+        case 558: {
+            item.detail = '(CLI/API) GETDIRECTORYACCESSRIGHTS [ SHARED ]';
+            item.documentation = 'Use this command to retrieve the Directory Access Rights. If the SHARED keyword is used, the cluster-wide Access Rights are retrieved. \nThis command produces an output - an array of Access Rights elements.';
+            break;
+        }
+        case 559: {
+            item.detail = '(CLI/API) SETDIRECTORYACCESSRIGHTS [ SHARED ] newAccessRights';
+            item.documentation = 'Use this command to set the Directory Access Rights. If the SHARED keyword is used, the cluster-wide Access Rights are set. newAccessRights : array \nThis parameter specifies the new Directory Access Rights.';
+            break;
+        }
+        case 560: {
+            item.detail = '(CLI/API) LISTCLICOMMANDS';
+            item.documentation = 'Use this command to retrieve the list of all CLI commands supported by this version of CommuniGate Pro Server. This command produces an output - an array of strings, where each string is a supported command name.';
+            break;
+        }
+        case 561: {
+            item.detail = '(CLI/API) NOOP';
+            item.documentation = 'This command always completes successfully.';
+            break;
+        }
+        case 562: {
+            item.detail = '(CLI/API) ECHO object';
+            item.documentation = 'This command produces an output - an object, which is the command parameter copy.';
+            break;
+        }
+        case 563: {
+            item.detail = '(CLI/API) GETVERSION';
+            item.documentation = 'This command produces an output - a string with this CommuniGate Pro Server version.';
+            break;
+        }
+        case 564: {
+            item.detail = '(CLI/API) GETSYSTEMINFO what';
+            item.documentation = 'This command produces an output - an object returned by the CG/PL SystemInfo function called with the what parameter. \nIf that function returns a null-object, this command returns an error.';
+            break;
+        }
+        case 565: {
+            item.detail = '(CLI/API) GETCURRENTTIME';
+            item.documentation = 'This command produces an output - a timestamp with this CommuniGate Pro Server internal timer value.';
+            break;
+        }
+        case 566: {
+            item.detail = '(CLI/API) SETLOGALL [ ON | OFF ]';
+            item.documentation = 'Use this command to switch on and off the "Log Everything" mode (this mode can also be enabled by using the --LogAll command line option. To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 567: {
+            item.detail = '(CLI/API) DUMPALLOBJECTS';
+            item.documentation = 'Use this command to write the list of all application data objects into the OS syslog. \nNote: this list may contain millions of objects, and this command can easily overload the OS syslog facilities. It also blocks object creation and releasing functionality, effectively suspending CommuniGate Pro Server activities till all objects are listed. To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 568: {
+            item.detail = '(CLI/API) TESTLOOP seconds';
+            item.documentation = 'Use this command to test the server CPU load. The command executes some calculation loop for the specified number of seconds. This command produces an output - a number that indicates the average CLI thread CPU performance (the number of times the test loop was executed divided by the test time). To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 569: {
+            item.detail = '(CLI/API) SETTRACE facility [ ON | OFF ]';
+            item.documentation = 'Use this command to switch on and off internal logging facitilies that write to OS syslog. The facility parameter should be a string with one of the folloing supported values: \nFileIO - record all file read/write/truncate operations \nFileOp - record all file create/rename/remove operations To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 570: {
+            item.detail = '(CLI/API) WRITELOG logLevel logRecord';
+            item.documentation = 'Use this command to store a record into the Server Log. logLevel : number \nThis parameter specifies the record log level.\nlogRecord : string\nThis parameter specifies the string to be placed into the Server Log. Log records generated with this command have the SYSTEM prefix. To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 571: {
+            item.detail = '(CLI/API) RELEASESMTPQUEUE queueName';
+            item.documentation = 'Use this command to release an SMTP queue. queueName : string \nThis parameter specifies the queue (domain) name to release. In a Dynamic Cluster environment this command releases the specified SMTP queue on all servers. To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 572: {
+            item.detail = '(CLI/API) REJECTQUEUEMESSAGE messageID [ REPORT errorText ]';
+            item.documentation = 'Use this command to reject a message from the Server Queue. messageID : number \nThis parameter specifies the message ID. \nerrorText : string\nThis optional parameter specifies the text to be included into the error report (bounce) sent to the message sender. If this parameter is NONDN, no DSN report message is generated. To use this command, the user should have the "Can Reject Queues" Server Administration right.';
+            break;
+        }
+        case 573: {
+            item.detail = '(CLI/API) REJECTQUEUEMESSAGES SENDER authedSender [ REPORT errorText ]';
+            item.documentation = 'Use this command to reject all messages sent by the specified sender from the Server Queue. authedSender : string \nThis parameter specifies the authenticated sender"s name.\nerrorText : string\nThis optional parameter specifies the text to be included into the error report (bounce) sent to the message sender. If this parameter is NONDN, no DSN report message is generated. In a Dynamic Cluster environment this command rejects messages from all server queues. \nTo use this command, the user should have the "Can Reject Queues" Server Administration right.';
+            break;
+        }
+        case 574: {
+            item.detail = '(CLI/API) GETMESSAGEQUEUEINFO moduleName QUEUE queueName';
+            item.documentation = 'Use this command to read information about a module message Queue. moduleName : string \nThis parameter specifies the module name. \nqueueName : string\nThis parameter specifies the module queue name. This command produces an output - a dictionary with the specified queue information. \nIf the module does not have the specified queue, the dictionary is empty. Otherwise it contains the following elements: \nnTotal - a number - the total number of messages in the queue \nsize - a number - the total size of all messages in the queue \ndelayedTill - (optional) a timestamp - the effective release time for this queue \nlastError - (optional) a string with the last problem report';
+            break;
+        }
+        case 575: {
+            item.detail = '(CLI/API) GETCURRENTCONTROLLER';
+            item.documentation = 'Use this command to get the IP address of the current Dynamic Cluster Controller. \nThis command produces an output - a string with the Cluster Controller IP Address. To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 576: {
+            item.detail = '(CLI/API) RECONNECTCLUSTERADMIN';
+            item.documentation = 'Use this command to force a Dynamic Cluster member to re-open all its inter-cluster Administrative connections, and (for a non-controller member) to re-open its Administrative connection to the Controller.';
+            break;
+        }
+        case 577: {
+            item.detail = '(CLI/API) GETTEMPCLIENTIPS';
+            item.documentation = 'Use this command to retrieve the set of temporary Client IP Addresses. The command produces an output - a string with Temporary Client IP addresses separated with the comma (,) symbols. To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 578: {
+            item.detail = '(CLI/API) TEMPBLACKLISTIP address [ TIMEOUT seconds | DELETE ]';
+            item.documentation = 'Use this command to add an address to the Temporary Blacklisted IP Addresses set. address : string \nThe Network IP Address to add. \nseconds : number\nThe time period the address should be blacklisted for. Use the DELETE keyword or specify zero time period to remove the address from the Temporary Blacklisted IP Addresses set.';
+            break;
+        }
+        case 579: {
+            item.detail = '(CLI/API) GETTEMPBLACKLISTEDIPS';
+            item.documentation = 'Use this command to retrieve the set of Temporary Blacklisted IP Addresses. The command produces an output - a string with Temporary Blacklisted IP addresses separated with the comma ( ,) symbols. Each IP address may have a -nnnn suffix, where nnnn is either the number of seconds this address will remain blacklisted for, or the * symbol indicating permanent address blacklisting. To use this command, the user should have the "Can Monitor" Server Administration right.';
+            break;
+        }
+        case 580: {
+            item.detail = '(CLI/API) SETTEMPBLACKLISTEDIPS addresses';
+            item.documentation = 'Use this command to add addresses to the Temporary Blacklisted IP Addresses list. addresses : string \nA string with a list of IP addresses, using the output format of the GetTempBlacklistedIPs command. To use this command, the user should have the "Server Settings" Server Administration right.';
             break;
         }
     }
